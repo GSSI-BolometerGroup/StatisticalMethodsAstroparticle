@@ -37,7 +37,7 @@ int main()
     double lambda = 5.;
     double min = -0.5;
     double max = 25.5;
-    int nBins = max-min+1;
+    int nBins = max-min;
     TH1D* poissonHisto = new TH1D("Poisson", "Poisson", nBins, min, max );
     poissonHisto->GetXaxis()->SetTitle("n");
     poissonHisto->GetYaxis()->SetTitle("P(n|#lambda=5)");
