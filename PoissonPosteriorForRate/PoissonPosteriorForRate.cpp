@@ -29,9 +29,6 @@ double SmartPoisson( double n,
 int main()
 {
 
-    double minT = 0.;
-    double maxT = 1.e3;// This is just a "random" choice, and has no influence on the result
-    double DeltaT = maxT-minT;
 
     // Create Poisson distribution with lambda=5
     double lambda = 5.;
@@ -55,7 +52,6 @@ int main()
     for( int b=1; b<=nBins; b++ )
 	{
 	    double x = posterior->GetBinCenter(b);
-	    double dx = posterior->GetBinWidth(b);
 	    posterior->SetBinContent( b, SmartPoisson( n, x ) );
 	}
     std::cout << "Posterior mean: " << posterior->GetMean() << std::endl;
@@ -74,7 +70,6 @@ int main()
     // Stuff for drawing second set of axes
     double xmax = gPad->GetUxmax();///poissonHisto->GetXaxis()->GetXmax();
     double ymax = 0.2;//1.1*posterior->GetMaximum();
-    double scale = gPad->GetUymax()/ymax;
     //posterior->Scale(scale);
     //poissonHisto->GetYaxis()->SetRangeUser(ymin,ymax);
 
