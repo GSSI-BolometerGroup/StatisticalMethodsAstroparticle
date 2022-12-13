@@ -1,18 +1,10 @@
-// ***************************************************************
-// This file was created using the bat-project script.
-// bat-project is part of Bayesian Analysis Toolkit (BAT).
-// BAT can be downloaded from http://mpp.mpg.de/bat
-// ***************************************************************
-
 #include <random>
 
 #include "BAT/BCConstantPrior.h"
 
 #include "RadioactiveDecayFit.h"
 
-// #include <BAT/BCMath.h>
 
-// ---------------------------------------------------------
 RadioactiveDecayFit::RadioactiveDecayFit(const std::string& name)
     : BCModel(name)
 {
@@ -21,12 +13,13 @@ RadioactiveDecayFit::RadioactiveDecayFit(const std::string& name)
     fN = 1000;
     fHalflife = 138.376;// days
     fDecayRate = log(2.) / fHalflife;
-    fDeltaT = fHalflife;
+    fDeltaT = 3. * fHalflife;
 
     std::random_device rd;
     std::mt19937 gen(rd());
     std::exponential_distribution dis(fDecayRate);
 
+    // Create event times
     double t;
     for( int n=0; n<fN; n++ )
 	{
@@ -37,24 +30,32 @@ RadioactiveDecayFit::RadioactiveDecayFit(const std::string& name)
     fK = fT.size();
     BCLog::OutSummary( "Number of detected events (fK): " + std::to_string(fK) );
 
+    // Computed P and lambda for Binomial and Poisson distributions, respectively
     fP      = 1. - exp( -fDecayRate * fDeltaT );
     fLambda = fN * fP;
-    
-    double minN = fK;// N cannot be smaller than K
-    double maxN = 2. * fN;
+
+    // Fill histogram with event times. This will not be used for the fit,
+    // but just for some final plots.
+    fDataHisto = new TH1D( "data", "data", 100, 0., fDeltaT );
+    fDataHisto->GetXaxis()->SetTitle( "t [days]" );
+    fDataHisto->GetYaxis()->SetTitle( "Events" );
+    for( auto& t: fT )
+	fDataHisto->Fill(t);
+
+    // Create model parameter N
+    double minN = std::max( fK, (size_t)(fN - 7. * sqrt(fN)) );// N cannot be smaller than K
+    double maxN = fN + 7. * sqrt(fN);//2. * fN;
     AddParameter( "N", minN, maxN, "N", "" );
     GetParameters().Back().SetPrior( new BCConstantPrior() );
     GetParameters().Back().SetNbins(300);
     
 }
 
-// ---------------------------------------------------------
 RadioactiveDecayFit::~RadioactiveDecayFit()
 {
-    // destructor
+    ;
 }
 
-// ---------------------------------------------------------
 double RadioactiveDecayFit::LogLikelihood(const std::vector<double>& pars)
 {
     // We define here an unbinned extended likelihood of type:
@@ -87,20 +88,6 @@ double RadioactiveDecayFit::LogLikelihood(const std::vector<double>& pars)
     
     return logL;
 }
-
-// ---------------------------------------------------------
-// double RadioactiveDecayFit::LogAPrioriProbability(const std::vector<double>& pars)
-// {
-//     // return the log of the prior probability p(pars)
-//     // If you use built-in priors, leave this function commented out.
-// }
-
-// ---------------------------------------------------------
-// void RadioactiveDecayFit::CalculateObservables(const std::vector<double>& pars)
-// {
-//     // Calculate and store obvserables. For example:
-//     GetObservable(0) = pow(pars[0], 2);
-// }
 
 void RadioactiveDecayFit::SetFitMethod( FitMethod method )
 {
@@ -147,4 +134,22 @@ double RadioactiveDecayFit::LogPoisson( double n,
     
     // Full formula, including factorial term
     //return -lambda + n * log(lambda) - LogFactorial(n);
+}
+
+TH1D* RadioactiveDecayFit::GetData()
+{
+    return fDataHisto;
+}
+
+TF1* RadioactiveDecayFit::GetBestFit()
+{
+    double binwidth = fDataHisto->GetBinWidth(1);
+    double min = fDataHisto->GetXaxis()->GetXmin();
+    double max = fDataHisto->GetXaxis()->GetXmax();
+    TF1* f = new TF1( "BestFit", "[0]*[1]*[2]*exp(-[2]*x)", min, max );
+    f->SetParameter( 0, GetBestFitParameters()[0] );
+    f->SetParameter( 1, binwidth );
+    f->SetParameter( 2, fDecayRate );
+
+    return f;
 }

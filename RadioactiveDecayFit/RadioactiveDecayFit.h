@@ -1,9 +1,3 @@
-// ***************************************************************
-// This file was created using the bat-project script.
-// bat-project is part of Bayesian Analysis Toolkit (BAT).
-// BAT can be downloaded from http://mpp.mpg.de/bat
-// ***************************************************************
-
 #ifndef __BAT__RADIOACTIVEDECAYFIT__H
 #define __BAT__RADIOACTIVEDECAYFIT__H
 
@@ -12,10 +6,9 @@
 #include <string>
 #include <vector>
 
-// This is a RadioactiveDecayFit header file.
-// Model source code is located in file RadioactiveDecayFit/RadioactiveDecayFit.cxx
+#include "TH1D.h"
+#include "TF1.h"
 
-// ---------------------------------------------------------
 class RadioactiveDecayFit : public BCModel
 {
 public:
@@ -33,6 +26,8 @@ private:
     double fLambda;// Poisson expectation for number of events in fDeltaT (=n*fP)
 
     FitMethod fMethod;
+
+    TH1D* fDataHisto;
     
     double LogBinomial( double k,
 			double n,
@@ -43,24 +38,16 @@ private:
     
 public:
 
-    // Constructor
     RadioactiveDecayFit(const std::string& name);
 
-    // Destructor
     ~RadioactiveDecayFit();
 
-    // Overload LogLikelihood to implement model
     double LogLikelihood(const std::vector<double>& pars);
 
-    // Overload LogAprioriProbability if not using built-in 1D priors
-    // double LogAPrioriProbability(const std::vector<double> & pars);
-
-    // Overload CalculateObservables if using observables
-    // void CalculateObservables(const std::vector<double> & pars);
-
     void SetFitMethod( FitMethod method );
-    
+
+    TH1D* GetData();
+    TF1* GetBestFit();
 };
-// ---------------------------------------------------------
 
 #endif
