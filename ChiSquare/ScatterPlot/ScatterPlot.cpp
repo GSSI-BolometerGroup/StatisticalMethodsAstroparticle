@@ -1,0 +1,128 @@
+#include <iostream>
+#include <vector>
+#include <random>
+#include <string>
+
+#include "TApplication.h"
+#include "TCanvas.h"
+#include "TGraphErrors.h"
+#include "TAxis.h"
+#include "TF1.h"
+#include "TFitResultPtr.h"
+#include "TFitResult.h"
+#include "TH1D.h"
+
+double ChiSquare( double x2, double n )
+{
+    double x = sqrt(x2);
+    double p = pow( 2., -0.5 * n );
+    p *= pow( x, n-2. );
+    p *= exp( -0.5 * x2 );
+    p /= TMath::Gamma(0.5*n);
+    return p;
+}
+
+int main()
+{
+    // We will generate N points distributed along a straight line f(x)=a+bx,
+    // shifting them randomly according to a Gaussian distribution centered at 0 and with a sigma
+    // also randomly generated with a flat distribution between 10 and 100.
+    // In other words:
+    // x_i     = equally spaced points
+    // sigma_i = flat random number in [10,100]
+    // dy_i    = Gaussian random number with mean 0 and sigma=sigma_i
+    // y_i     = f(x_i) + dy_i
+    // To each point y_i, we assign the uncertainty sigma_i.
+    // At this point, we fit the (x,y) scatterplot with f(x) and extract the minimum Chi2 from the minimizer.
+    // We repeat this M times, populate a histogram with the min-Chi2 values,
+    // and compare it with the theoretical Chi2 distribution for N-2 degrees of freedom (because f(x) has 2 parameters).
+
+    // Set the min and max of x, and the step
+    double min = 0.;
+    double max = 1000.;
+    double step = 100.;
+    int N = (max-min)/step + 1;
+    // Set the parameters of f(x)
+    double offset = 3.;// Just a random value
+    double slope = 1.5;// Just a random value
+    // Set the number of toy experiments
+    int M = 10000;
+
+    // We'll store X and Y on vectors. Xerr will be filled with zeroes.
+    std::vector<double>* X    = new std::vector<double>(N);
+    std::vector<double>* Xerr = new std::vector<double>(N);
+    std::vector<double>* Y    = new std::vector<double>(N);
+    std::vector<double>* Yerr = new std::vector<double>(N);
+    // Copy this to a TGraphErrors object. At the moment all values are zero, but we'll update later on for each toy experiment.
+    TGraphErrors* scatterplot = new TGraphErrors( N, &(X->at(0)), &(Y->at(0)), &(Xerr->at(0)), &(Yerr->at(0)) );
+    scatterplot->GetXaxis()->SetTitle("Amplitude [mV]");
+    scatterplot->GetYaxis()->SetTitle("Energy [keV]");
+
+    // Prepare a random number generator with flat distribution to generate sigma_i
+    std::random_device rd;  // Will be used to obtain a seed for the random number engine
+    std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+    double minsigma = 10;
+    double maxsigma = 100;
+    std::uniform_real_distribution<> dis(minsigma,maxsigma);
+
+    // Define the fitting function
+    TF1* func = new TF1( "func", "[0]+[1]*x", min, max );
+    // Prepare the histo for the min-Chi2 distribution
+    double maxChi2=N+10*sqrt(N);
+    TH1D* h_Chi2 = new TH1D("h","h",1000,0,maxChi2);
+    h_Chi2->GetXaxis()->SetTitle("#Chi^{2}");
+    
+    // This is just ROOT stuff needed to retrieve the min-Chi2 of each fit
+    TFitResultPtr fitresultPtr;
+    TFitResult* fitresult;
+
+    // Loop over the toy experiments
+    for( int m=0; m<M; m++ )
+	{
+	    // Loop over the points
+	    for( int i=0; i<N; i++ )
+		{
+		    // Generate random sigma
+		    double sigma = dis(gen);
+		    // Create Gaussian random generator
+		    std::normal_distribution<> dissigma(0,sigma);
+		    // Generate the point
+		    X->at(i)    = min + step * i;
+		    Xerr->at(i) = 0.;
+		    Y->at(i)    = offset + X->at(i) * slope + dissigma(gen);
+		    Yerr->at(i) = sigma;
+		    // Update the TGraphErrors
+		    scatterplot->SetPoint( i, X->at(i), Y->at(i) );
+		    scatterplot->SetPointError( i, Xerr->at(i), Yerr->at(i) );
+		}
+	    // Get the min-Chi2 for the current fit
+	    fitresultPtr = scatterplot->Fit( func, "NQRS" );
+	    fitresult = fitresultPtr.Get();
+	    // Fill the histogram of min-Chi2 values
+	    h_Chi2->Fill( fitresult->Chi2() );
+	}
+    
+    // Compute the theoretical Chi2 for (N-2) degrees of freedom
+    TH1D* theoreticalChi2 = new TH1D("theoreticalChi2", "theoreticalChi2", 1000,0,maxChi2 );
+    for( int b=1; b<=1000; b++ )
+	theoreticalChi2->SetBinContent( b, M*theoreticalChi2->GetBinWidth(1)*ChiSquare( theoreticalChi2->GetBinCenter(b), N-2 ) );
+    theoreticalChi2->SetLineColor(2);
+    theoreticalChi2->SetLineWidth(2);
+
+    // Draw
+    TApplication* app = new TApplication( "app", NULL, 0 );
+    TCanvas* can = new TCanvas( "can", "can", 1600, 900 );
+    can->Divide(1,2);
+    can->cd(1);
+    // Draw the last scatter plot and the corresponding function
+    scatterplot->Draw("AP");
+    func->Draw("same");
+    can->cd(2);
+    // Draw the min-Chi2 histo and the corrisponding theoretical Chi2 distribution
+    h_Chi2->Draw();
+    theoreticalChi2->Draw("SAME");
+	
+    app->Run();
+    
+    return 0;
+}
