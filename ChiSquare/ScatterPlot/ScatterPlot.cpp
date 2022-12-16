@@ -89,13 +89,20 @@ int main()
 		    // Generate the point
 		    X->at(i)    = min + step * i;
 		    Xerr->at(i) = 0.;
-		    Y->at(i)    = offset + X->at(i) * slope + dissigma(gen);
+		    Y->at(i)    = offset
+			+ X->at(i) * slope
+			+ dissigma(gen);
 		    Yerr->at(i) = sigma;
 		    // Update the TGraphErrors
 		    scatterplot->SetPoint( i, X->at(i), Y->at(i) );
 		    scatterplot->SetPointError( i, Xerr->at(i), Yerr->at(i) );
 		}
-	    // Get the min-Chi2 for the current fit
+	    // Fit and get the min-Chi2 for the current fit.
+	    // Fit options:
+	    // N --> does not draw
+	    // Q --> does not print fit results on the terminal
+	    // R --> Use range specified in function declaration
+	    // S --> Save fit result to TFitResult object (necessary to retrieve min-Chi2)
 	    fitresultPtr = scatterplot->Fit( func, "NQRS" );
 	    fitresult = fitresultPtr.Get();
 	    // Fill the histogram of min-Chi2 values
@@ -121,7 +128,8 @@ int main()
     // Draw the min-Chi2 histo and the corrisponding theoretical Chi2 distribution
     h_Chi2->Draw();
     theoreticalChi2->Draw("SAME");
-	
+
+    
     app->Run();
     
     return 0;
