@@ -35,3 +35,4 @@
 # Backup files
 *~
 *#
+.DS_Store
