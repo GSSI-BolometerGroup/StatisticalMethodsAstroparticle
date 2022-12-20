@@ -64,8 +64,8 @@ RadioactiveDecayFit::RadioactiveDecayFit(const std::string& name)
     AddObservable( "T1/2", minHalflife, maxHalflife, "T_{1/2}", "d" );
     GetObservables().Back().SetNbins(300);
 
-    AddObservable( "N", minN, maxN, "N", "" );
-    GetObservables().Back().SetNbins(300);
+    //AddObservable( "N", minN, maxN, "N", "" );
+    //GetObservables().Back().SetNbins(300);
 }
 
 RadioactiveDecayFit::~RadioactiveDecayFit()
