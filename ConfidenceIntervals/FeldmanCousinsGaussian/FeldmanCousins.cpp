@@ -164,7 +164,7 @@ int main()
 		FCbelt->SetBinContent( bx, bmu, 1 );
 	}
 
-    // Compute the coverage of x. Yes, the coverage of x, not of mu!
+    // Compute the coverage of mu
     TH1D* coverage = new TH1D("Coverage(#mu)","Coverage(#mu)",nBinsMu,minMu,maxMu);
     coverage->GetXaxis()->SetTitle("#mu [bananas]");
     coverage->GetYaxis()->SetTitle("Coverage(#mu)");
@@ -173,7 +173,56 @@ int main()
 	for( int bx=1; bx<=nBinsX; bx++ )
 	    if( FCbelt->GetBinContent( bx, bmu ) == 1 )
 		coverage->AddBinContent( bmu, belt->GetBinContent(bx,bmu)*dX );
+
+    // Compute the coverage for mu, this time using toy-MC experiments
+    std::random_device rd;  // Will be used to obtain a seed for the random number engine
+    std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+    std::normal_distribution<> gaus(0,sigma);
+
+    // Copy the lower and upper limit of the FC belt to a vector
+    // to speed up the comparison later on.
+    std::vector<double> lowMu(nBinsX);
+    std::vector<double> highMu(nBinsX);
+    for( int bx=0; bx<nBinsX; bx++ )
+	{
+	    bool foundLow = false;
+	    for( int bmu=0; bmu<nBinsMu; bmu++ )
+		if( FCbelt->GetBinContent( bx+1, bmu+1 ) == 1 )
+		    {
+			if( !foundLow )
+			    {
+				lowMu[bx] = minMu + dMu * ( 0.5 + bmu );
+				foundLow = true;
+			    }
+			else
+			    highMu[bx] = minMu + dMu * ( 0.5 + bmu );
+		    }
+	}
+
+    TH1D* toycoverage = new TH1D("Toy-MC coverage(#mu)","Toy-MC coverage(#mu)",nBinsMu,minMu,maxMu);
+    toycoverage->GetXaxis()->SetTitle("#mu [bananas]");
+    toycoverage->GetYaxis()->SetTitle("Coverage(#mu)");
+    toycoverage->GetYaxis()->SetRangeUser(0,1);
     
+    int M = 10000;
+    for( int bmu=0; bmu<nBinsMu; bmu++ )
+	{
+	    double mu = minMu + dMu * ( 0.5 + bmu );
+	    double nAccepted = 0.;
+	    for( int m=0; m<M; m++ )
+		{
+		    double x = mu + gaus(gen);
+		    int bx = ( x - minX ) / dX;
+		
+		    if( mu >= lowMu[bx] &&
+			mu <= highMu[bx] )
+			nAccepted += 1.;
+		}
+	    toycoverage->SetBinContent( bmu, nAccepted/M );
+
+	}
+    
+
     // Draw
     gStyle->SetOptStat(0);
     TApplication* app = new TApplication( "app", NULL, 0 );
@@ -190,6 +239,8 @@ int main()
     FCbelt->Draw("colz");
     can->cd(5);
     coverage->Draw();
+    can->cd(6);
+    toycoverage->Draw();
     app->Run();
         
     return 0;
