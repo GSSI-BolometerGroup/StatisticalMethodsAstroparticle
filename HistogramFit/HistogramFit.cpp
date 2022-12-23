@@ -31,7 +31,11 @@ int main()
     double min   = 2000.;
     double max   = 2080.;
     int nBins    = 10. * ( max-min );// 0.1 keV bins, much thinner than energy resolution
+    
+    // Prepare histogram, which will be reset and filled for each toy-MC experiment
     TH1D* histo  = new TH1D("histo","histo",nBins,min,max);
+
+    // Prepare fitting function
     TF1* func = new TF1( "func", GaussianPlusFlat, min, max, 6 );
     func->SetParName( 0, "Integral" );
     func->SetParName( 1, "Mean" );
@@ -40,47 +44,54 @@ int main()
     func->SetParName( 4, "Bin width" );
     func->SetParName( 5, "Fit range" );
     func->SetNpx(10000);
-    
+
+    // Random number machinery
     std::random_device rd;  // Will be used to obtain a seed for the random number engine
     std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
-    std::uniform_real_distribution<> dis(min,max);
-    std::uniform_real_distribution<> smear(0,1);
-    std::normal_distribution<> gaus(mu,sigma);
+    std::uniform_real_distribution<> dis(min,max);// This is for the background distribution
+    std::uniform_real_distribution<> smear(0,1);// This is used to initialize the parameters of the fitting function so that they're wrong by some amount
+    std::normal_distribution<> gaus(mu,sigma);// This is for the signal distribution
 
+    // List of signal and background counts to be simulated
     std::vector<int> B{10,100,1000,10000};
     std::vector<int> S{10,100,1000,10000};
 
+    // Lists of 1-dim and 2-dim histograms for S, B and S-vs-B
     size_t nCases = B.size() * S.size();
-    std::vector<TH1D*> h_s_Poisson(nCases);
+    std::vector<TH1D*> h_s_Likelihood(nCases);
     std::vector<TH1D*> h_s_NeymanChi2(nCases);
     std::vector<TH1D*> h_s_PearsonChi2(nCases);
-    std::vector<TH1D*> h_b_Poisson(nCases);
+    std::vector<TH1D*> h_b_Likelihood(nCases);
     std::vector<TH1D*> h_b_NeymanChi2(nCases);
     std::vector<TH1D*> h_b_PearsonChi2(nCases);
-    std::vector<TH2D*> h_sb_Poisson(nCases);
+    std::vector<TH2D*> h_sb_Likelihood(nCases);
     std::vector<TH2D*> h_sb_NeymanChi2(nCases);
     std::vector<TH2D*> h_sb_PearsonChi2(nCases);
     int M = 300;
-    //int B = 1000;// Number of background events (uniformly distributed)
-    //int S = 1000;// Number of signal events (Gaussian distributed around mu)
 
     int c=0;
+    std::cout << "s\tb"<< std::endl;
+    std::cout << "-------------" << std::endl;
     std::string h_name;
+    
+    // Loop over S and B
     for( auto& b: B )
 	for( auto& s: S )
 	    {
 
 		std::cout << s << "\t" << b << std::endl;
 
+		// Estimate the combined uncertainty to define histogram ranges for S and B
 		double err = sqrt( s + b );
 		double mins = std::max( 0., -5.*err+s );
 		double maxs = 5.*err+s;
 		double minb = std::max( 0., -5.*err+b );
 		double maxb = 5.*err+b;
-		
+
+		// Create histograms for this specific combination of S and B
 		int nBins = 1000;
-		h_name = "S Poisson S=" + std::to_string(s) + " B=" + std::to_string(b);
-		h_s_Poisson[c] = new TH1D( h_name.c_str(), h_name.c_str(), nBins, mins, maxs );
+		h_name = "S Likelihood S=" + std::to_string(s) + " B=" + std::to_string(b);
+		h_s_Likelihood[c] = new TH1D( h_name.c_str(), h_name.c_str(), nBins, mins, maxs );
 		h_name = "S NeymanChi2 S=" + std::to_string(s) + " B=" + std::to_string(b);
 		h_s_NeymanChi2[c] = new TH1D( h_name.c_str(), h_name.c_str(), nBins, mins, maxs );
 		h_name = "S PearsonChi2 S=" + std::to_string(s) + " B=" + std::to_string(b);
@@ -88,8 +99,8 @@ int main()
 		h_s_NeymanChi2[c]->SetLineColor(2);
 		h_s_PearsonChi2[c]->SetLineColor(4);
 		
-		h_name = "B Poisson S=" + std::to_string(s) + " B=" + std::to_string(b);
-		h_b_Poisson[c] = new TH1D( h_name.c_str(), h_name.c_str(), nBins, minb, maxb );
+		h_name = "B Likelihood S=" + std::to_string(s) + " B=" + std::to_string(b);
+		h_b_Likelihood[c] = new TH1D( h_name.c_str(), h_name.c_str(), nBins, minb, maxb );
 		h_name = "B NeymanChi2 S=" + std::to_string(s) + " B=" + std::to_string(b);
 		h_b_NeymanChi2[c] = new TH1D( h_name.c_str(), h_name.c_str(), nBins, minb, maxb );
 		h_name = "B PearsonChi2 S=" + std::to_string(s) + " B=" + std::to_string(b);
@@ -97,20 +108,20 @@ int main()
 		h_b_NeymanChi2[c]->SetLineColor(2);
 		h_b_PearsonChi2[c]->SetLineColor(4);
 
-		h_name = "S vs B Poisson S=" + std::to_string(s) + " B=" + std::to_string(b);
-		h_sb_Poisson[c] = new TH2D( h_name.c_str(), h_name.c_str(), nBins, mins, maxs, nBins, minb, maxb );
+		h_name = "S vs B Likelihood S=" + std::to_string(s) + " B=" + std::to_string(b);
+		h_sb_Likelihood[c] = new TH2D( h_name.c_str(), h_name.c_str(), nBins, mins, maxs, nBins, minb, maxb );
 		h_name = "S vs B NeymanChi2 S=" + std::to_string(s) + " B=" + std::to_string(b);
 		h_sb_NeymanChi2[c] = new TH2D( h_name.c_str(), h_name.c_str(), nBins, mins, maxs, nBins, minb, maxb );
 		h_name = "S vs B PearsonChi2 S=" + std::to_string(s) + " B=" + std::to_string(b);
 		h_sb_PearsonChi2[c] = new TH2D( h_name.c_str(), h_name.c_str(), nBins, mins, maxs, nBins, minb, maxb );
-		h_sb_Poisson[c]->GetXaxis()->SetTitle( "S" );
-		h_sb_Poisson[c]->GetYaxis()->SetTitle( "B" );
+		h_sb_Likelihood[c]->GetXaxis()->SetTitle( "S" );
+		h_sb_Likelihood[c]->GetYaxis()->SetTitle( "B" );
 		h_sb_NeymanChi2[c]->GetXaxis()->SetTitle( "S" );
 		h_sb_NeymanChi2[c]->GetYaxis()->SetTitle( "B" );
 		h_sb_PearsonChi2[c]->GetXaxis()->SetTitle( "S" );
 		h_sb_PearsonChi2[c]->GetYaxis()->SetTitle( "B" );
 		
-		
+		// Loop over toy-MC experiments
 		for( int m=0; m<M; m++ )
 		    {
 			histo->Reset();
@@ -121,29 +132,37 @@ int main()
 			for( int ss=0; ss<s; ss++ )
 			    histo->Fill( gaus(gen) );
 
-			// Define fitting function
-
+			// Initialize the fitting function.
+			// We fit only the parameters S and B, while all the other parameters are fixed to their known input values.
 			func->SetParameter( 0, mins + (maxs-mins) * smear(gen) );// +- 10% smearing
-			//func->SetParameter( 1, mu + mu * 0.0005 * smear(gen) );// +- 2 keV smearing
 			func->FixParameter( 1, mu );
-			//func->SetParameter( 2, sigma + sigma * 0.1 * smear(gen));
 			func->FixParameter( 2, sigma );
 			func->SetParameter( 3, minb + (maxb-minb) * smear(gen) );//b + b * 0.1 * (maxb-minb) * smear(gen) );
 			func->FixParameter( 4, histo->GetBinWidth(1) );
 			func->FixParameter( 5, max-min );
 			func->SetParLimits( 0, mins, maxs );
-			//func->SetParLimits( 1, mu-3*sigma, mu+3*sigma );
-			//func->SetParLimits( 2, 0.5*sigma, 1.5*sigma );
 			func->SetParLimits( 3, minb, maxb );
 
+			// At this point we can fit multiple times, passing various fit options.
+			// Meaning of the fit options:
+			// R --> Use the range specified in the TF1 definition
+			// N --> Do now plot the fitting function (otherwise it will keep on popping-up new windows
+			// Q --> Do not print the fit result on the terminal (otherwise it will be pretty slow)
+			// L --> Likelihood fit
+			// P --> Pearson Chi2 fit
+			// Notice that the default fit mode is the Neyman-Chi2.
+			
+			// Likelihood fit
 			histo->Fit( func, "RNQL" );
-			h_s_Poisson[c]->Fill( func->GetParameter(0) );
-			h_b_Poisson[c]->Fill( func->GetParameter(3) );
-			h_sb_Poisson[c]->Fill( func->GetParameter(0), func->GetParameter(3) );
+			h_s_Likelihood[c]->Fill( func->GetParameter(0) );
+			h_b_Likelihood[c]->Fill( func->GetParameter(3) );
+			h_sb_Likelihood[c]->Fill( func->GetParameter(0), func->GetParameter(3) );
+			// Neyman Chi2 fit
 			histo->Fit( func, "RNQ" );
 			h_s_NeymanChi2[c]->Fill( func->GetParameter(0) );
 			h_b_NeymanChi2[c]->Fill( func->GetParameter(3) );
 			h_sb_NeymanChi2[c]->Fill( func->GetParameter(0), func->GetParameter(3) );
+			// Pearson Chi2 fit
 			histo->Fit( func, "RNQP" );
 			h_s_PearsonChi2[c]->Fill( func->GetParameter(0) );
 			h_b_PearsonChi2[c]->Fill( func->GetParameter(3) );
@@ -153,40 +172,44 @@ int main()
 	    }
     
     // Draw
+    gStyle->SetOptStat(0);
     TApplication* app = new TApplication( "app", NULL, 0 );
-    TCanvas* can1 = new TCanvas( "can1", "can1", 1600, 900 );
+    // Distribution of fitted S for all combinations of S and B, and all 3 fit methods
+    TCanvas* can1 = new TCanvas( "S", "S", 1600, 900 );
     can1->Divide( B.size(), S.size() );
     for( size_t c=0; c<nCases; c++ )
 	{
 	    can1->cd(c+1);
-	    h_s_Poisson[c]->Draw();
+	    h_s_Likelihood[c]->Draw();
 	    h_s_NeymanChi2[c]->Draw("SAME");
 	    h_s_PearsonChi2[c]->Draw("SAME");
 	}
-    TCanvas* can2 = new TCanvas( "can2", "can2", 1600, 900 );
+    // Distribution of fitted B for all combinations of S and B, and all 3 fit methods
+    TCanvas* can2 = new TCanvas( "B", "B", 1600, 900 );
     can2->Divide( B.size(), S.size() );
     for( size_t c=0; c<nCases; c++ )
 	{
 	    can2->cd(c+1);
-	    h_b_Poisson[c]->Draw();
+	    h_b_Likelihood[c]->Draw();
 	    h_b_NeymanChi2[c]->Draw("SAME");
 	    h_b_PearsonChi2[c]->Draw("SAME");
 	}
-    TCanvas* can3 = new TCanvas( "can3", "can3", 1600, 900 );
+    
+    TCanvas* can3 = new TCanvas( "S vs B Likelihood", "S vs B Likelihood", 1600, 900 );
     can3->Divide( B.size(), S.size() );
     for( size_t c=0; c<nCases; c++ )
 	{
 	    can3->cd(c+1);
-	    h_sb_Poisson[c]->Draw("colz");
+	    h_sb_Likelihood[c]->Draw("colz");
 	}
-    TCanvas* can4 = new TCanvas( "can4", "can4", 1600, 900 );
+    TCanvas* can4 = new TCanvas( "S vs B Neyman Chi2", "S vs B Neyman Chi2", 1600, 900 );
     can4->Divide( B.size(), S.size() );
     for( size_t c=0; c<nCases; c++ )
 	{
 	    can4->cd(c+1);
 	    h_sb_NeymanChi2[c]->Draw("colz");
 	}
-    TCanvas* can5 = new TCanvas( "can5", "can5", 1600, 900 );
+    TCanvas* can5 = new TCanvas( "S vs B Pearson Chi2", "S vs B Pearson Chi2", 1600, 900 );
     can5->Divide( B.size(), S.size() );
     for( size_t c=0; c<nCases; c++ )
 	{
