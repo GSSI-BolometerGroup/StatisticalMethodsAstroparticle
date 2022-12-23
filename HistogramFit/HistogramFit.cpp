@@ -12,6 +12,13 @@
 #include "TPaveStats.h"
 #include "TF1.h"
 
+// In this example, we compare the performance of the likelihood, Neyman-Chi2 and Pearson-Chi2 fits
+// on a binned energy spectrum (histogram) containing S Gaussian-distributed signal events
+// over B uniformly-distributed background events.
+// We consider several combinations of S and B, going from 10 to 10000.
+// For each combination, we generate M toy-MC spectra, and fit them with the 3 above-mentioned methods.
+// We then plot the distributions of S an B and S vs B for all methods.
+
 double GaussianPlusFlat( double *x, double* par )
 {
     // par[0] = integral
@@ -83,10 +90,11 @@ int main()
 
 		// Estimate the combined uncertainty to define histogram ranges for S and B
 		double err = sqrt( s + b );
-		double mins = std::max( 0., -5.*err+s );
-		double maxs = 5.*err+s;
-		double minb = std::max( 0., -5.*err+b );
-		double maxb = 5.*err+b;
+		double nErr = 7.;
+		double mins = std::max( 0., -nErr*err+s );
+		double maxs = nErr*err+s;
+		double minb = std::max( 0., -nErr*err+b );
+		double maxb = nErr*err+b;
 
 		// Create histograms for this specific combination of S and B
 		int nBins = 1000;
@@ -216,12 +224,7 @@ int main()
 	    can5->cd(c+1);
 	    h_sb_PearsonChi2[c]->Draw("colz");
 	}
-    //histo->Draw();
-    //histo->Fit(func,"R");
 
-
-    //histo->Fit(func,"RLL");
-    //histo->Fit(func,"R");
     app->Run(kTRUE);
     
     return 0;
