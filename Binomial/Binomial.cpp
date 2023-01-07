@@ -75,11 +75,6 @@ double SmartBinomial( double k, double n, double p )
 
 int main()
 {
-    std::random_device rd;  // Will be used to obtain a seed for the random number engine
-    std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
-    std::uniform_real_distribution<> dis(0.0, 1.0);
-
-    //std::cout << Binomial( 0, 2, 0.5 ) << std::endl;
 
     double n=150;
     std::vector<TH1D*> histo;
