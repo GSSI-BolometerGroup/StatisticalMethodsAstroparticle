@@ -145,7 +145,7 @@ int main()
 		}
 	}
 
-    // Compute the coverage of x. Yes, the coverage of x, not of mu!
+    // Compute the coverage of mu.
     TH1D* coverage = new TH1D("Coverage(#mu)","Coverage(#mu)",nBinsMu,minMu,maxMu);
     coverage->GetXaxis()->SetTitle("#mu [bananas]");
     coverage->GetYaxis()->SetTitle("Coverage(#mu)");
