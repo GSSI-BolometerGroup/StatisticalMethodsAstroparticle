@@ -11,6 +11,16 @@
 #include "TPaveStats.h"
 #include "TF1.h"
 
+// In this example, we compute the distribution of the squared y of a variable x, y=x^2,
+// where x has two possible distributions:
+// a) Gaussian with mu=2 and sigma=1
+// b) Poisson with lambda=3.
+// We proceed in two ways:
+// 1) Generate 10^6 random values of x, and histogram the corresponding value of y
+// 2) Compute the theoretical distribution of y.
+// In the end, we plot the distributions obtained with methods 1) and 2) and see if they overlap.
+
+// These are just functions necessary to compute the Gaussian and Poisson distributions
 double Factorial( double n ){
     if( n <= 1. )
 	return 1.;
@@ -58,7 +68,7 @@ int main()
     // Number of events to be generated
     int N = 1000000;
 	
-    // Gaussian distro
+    // Prepare histograms for Gaussian case
     double mu    = 2.;
     double sigma = 1.;
     double min = mu - 3.*sigma;
@@ -72,57 +82,62 @@ int main()
     double binWidth = gaussian_histo->GetBinWidth(1);
     double binWidthSquared = gaussianSquared_histo->GetBinWidth(1);
 
+    // Gaussian distribution
     TF1* gaussian = new TF1( "Gaussian", Gaussian, min, max, 3 );
     gaussian->SetParameter( 0, (double)N*binWidth );
     gaussian->SetParameter( 1, mu );
     gaussian->SetParameter( 2, sigma );
 
+    // Theoretical distribution of y, with a Gaussian-distributed x
     TF1* gaussianSquared = new TF1( "GaussianSquared", GaussianSquared, 0, pow(max,2.), 3 );
     gaussianSquared->SetParameter( 0, (double)N*binWidthSquared );
     gaussianSquared->SetParameter( 1, mu );
     gaussianSquared->SetParameter( 2, sigma );
 
-    // Poisson distro
+    // Prepare histogram for Poisson case
     double lambda = 3.;
     min = 0.;
     max = lambda + 5 * sqrt(lambda);
-    //nBins = (int)(max-min+0.5);
     TH1D* poisson_histo = new TH1D( "Poisson", "Poisson", nBins, min, max );
 
+    // Poisson distribution
     TF1* poisson = new TF1( "Poisson", Poisson, min+0.5*binWidth, max-0.5*binWidth, 2 );
-    poisson->SetParameter( 0, 1 );//(double)N*binWidth );
+    poisson->SetParameter( 0, 1 );
     poisson->SetParameter( 1, lambda );
-    //int npx = (int)(max-min-0.5);
-    //poisson->SetNpx(npx);
 
     minSquared = 0.;
     maxSquared = pow( max, 2. );
-    //nBins = npx+1;//(int)(maxSquared-minSquared+0.5);
     TH1D* poissonSquared_histo = new TH1D( "PoissonSquared", "PoissonSquared", nBins, minSquared, maxSquared );
     binWidth = poisson_histo->GetBinWidth(1);
     binWidthSquared = poissonSquared_histo->GetBinWidth(1);
 
+    // Theoretical distribution of y, with a Poisson-distributed y
     TF1* poissonSquared = new TF1( "PoissonSquared", PoissonSquared,
 				   minSquared+0.5*binWidthSquared,
 				   maxSquared-0.5*binWidthSquared, 2 );
     poissonSquared->SetParameter( 0, (double)N*binWidthSquared );
     poissonSquared->SetParameter( 1, lambda );
-    //poissonSquared->SetNpx(npx);//(int)(maxSquared-minSquared-0.5));
     
-
+    // Populate the histograms with random values of x,
+    // and the corresponding value of y.
     for( int i=0; i<N; i++ )
 	{
+	    // Generate random Gaussian x
 	    double x = gaussian->GetRandom();
+	    // Compute corresponding y
 	    double y = pow(x,2.);
+	    // Populate histograms
 	    gaussian_histo->Fill(x);
 	    gaussianSquared_histo->Fill(y);
 
+	    // Repeat for the Poisson case
 	    x = poisson->GetRandom();
 	    y = pow(x,2.);
 	    poisson_histo->Fill(x);
 	    poissonSquared_histo->Fill(y);
 	}
-	
+
+    // Draw the 4 distributions (x and y, Gaussian and Poisson case)
     TApplication* app = new TApplication( "app", NULL, 0 );
     TCanvas* can = new TCanvas( "can", "can", 1600, 900 );
     can->Divide(2,2);
