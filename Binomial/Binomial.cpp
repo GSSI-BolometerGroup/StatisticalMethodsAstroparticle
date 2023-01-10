@@ -11,6 +11,12 @@
 #include "TPad.h"
 #include "TPaveStats.h"
 
+// In this example, we compute the binomial distributions with n=150 and p={0.1,0.3,0.5,0.7,0.9},
+// and plot them all together.
+// We do not use any predefined method for the binomial distribution, or for the factorial,
+// with the goal of showing the numerical issues connected with their calculation.
+// To cross check the validity of your implementation, repeat with n=500.
+
 // Works only up to n=170, after which it hits the max value allowed for a double and returns nan.
 double Factorial( double n ){
     if( n <= 1. )
@@ -76,11 +82,14 @@ double SmartBinomial( double k, double n, double p )
 int main()
 {
 
+    // Define n
     double n=150;
+    // Prepare and fill histograms (one for each value of p)
     std::vector<TH1D*> histo;
     int nBins = n+1;
     double min = -0.5;
     double max = 0.5 + n;
+    // Loop over possible values of p
     for( double p=0.1; p<=0.9; p+=0.2 )
 	{
 	    std::string name( "n=" + std::to_string(p) );
@@ -88,17 +97,20 @@ int main()
 	    for( int b=1; b<=nBins; b++ )
 		{
 		    double k = histo.back()->GetBinCenter(b);
+		    // Set the content of each bin with the corresponding value of the Binomial distribution
 		    histo.back()->SetBinContent( b, SmartBinomial( k, n, p ) );
 		}
 	}
 
+    // Some graphical options
     for( size_t i=0; i<histo.size(); i++ )
 	{
 	    histo[i]->SetLineColor(kGreen-i);
 	    histo[i]->SetLineWidth(2);
 	    histo[i]->SetLineStyle(1+i);
 	}
-    
+
+    // Draw all histograms together
     TApplication* app = new TApplication( "app", NULL, 0 );
     TCanvas* can = new TCanvas( "can", "can", 1600, 900 );
     can->cd();
