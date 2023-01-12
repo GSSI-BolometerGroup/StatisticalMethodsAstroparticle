@@ -22,17 +22,20 @@ Efficiency::Efficiency( const std::string& name,
     fMinE       = 1.;// keV
     fMaxE       = 20.;// keV
     fThreshold  = 3.;// keV
-    fSigma      = 1.;
+    fSigma      = 1.;// keV
     fEfficiency = eff;
+    // Define the input (true) efficiency curve
     fEfficiencyCurve = TF1( "EfficiencyCurve", "0.5*[0]*(1.+TMath::Erf((x-[1])/[2]))", -1.+fMinE, 1.+fMaxE );
     fEfficiencyCurve.SetParameter(0,fEfficiency);
     fEfficiencyCurve.SetParameter(1,fThreshold);
     fEfficiencyCurve.SetParameter(2,fSigma);
 
+    // Random number machinery
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0,1);
-    
+
+    // Populate points
     for( int e=fMinE; e<=fMaxE; e++ )
 	{
 	    double k = 0;
@@ -44,15 +47,14 @@ Efficiency::Efficiency( const std::string& name,
 		    k += 1.;
 	    
 	    fK[e] = k;
-	    //std::cout << e << "\t" << k << std::endl;
 	}
 
 
     // Add parameters
-    double minEff = std::max( 0., 0.9*fEfficiency );
-    double maxEff = std::min( 1., 1.1*fEfficiency );
+    double minEff = 0.;
+    double maxEff = 1.;
     AddParameter( "Efficiency", minEff, maxEff, "#epsilon", "" );
-    GetParameters().Back().SetPrior( new BCConstantPrior() );
+    GetParameters().Back().SetPrior( new BCConstantPrior() );// Flat between 0 and 1 for the efficiency
     GetParameters().Back().SetNbins(300);
 
     AddParameter( "Threshold", 0.9*fThreshold, 1.1*fThreshold, "E_{thr}", "[keV]" );
@@ -64,14 +66,6 @@ Efficiency::Efficiency( const std::string& name,
     GetParameters().Back().SetNbins(300);
 
     
-    // Define parameters here in the constructor.
-    // Also define their priors, if using built-in priors.
-    // For example:
-    // AddParameter("mu", -2, 1, "#mu", "[GeV]");
-    // GetParameters.Back().SetPrior(new BCGaussianPrior(-1, 0.25));
-
-    // Define observables here, too. For example:
-    // AddObservable("mu_squared", 1, 4, "#mu^{2}", "[GeV^{2}]");
 }
 
 // ---------------------------------------------------------
@@ -84,8 +78,6 @@ Efficiency::~Efficiency()
 double Efficiency::LogLikelihood(const std::vector<double>& pars)
 {
     // return the log of the conditional probability p(data|pars).
-    // This is where you define your model.
-    // BCMath contains many functions you will find helpful.
 
     double logL = 0.;
     if( fMethod == FitMethod::kBinomial )

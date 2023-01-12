@@ -1,9 +1,3 @@
-// ***************************************************************
-// This file was created using the bat-project script.
-// bat-project is part of Bayesian Analysis Toolkit (BAT).
-// BAT can be downloaded from http://mpp.mpg.de/bat
-// ***************************************************************
-
 #ifndef __BAT__EFFICIENCY__H
 #define __BAT__EFFICIENCY__H
 
@@ -15,21 +9,18 @@
 
 #include "TF1.h"
 
-// This is a Efficiency header file.
-// Model source code is located in file Efficiency/Efficiency.cxx
-
-// ---------------------------------------------------------
 class Efficiency : public BCModel
 {
 public:
+    // With this enumerator, we switch between the 3 types of fit
     enum FitMethod{ kBinomial, kPoisson, kChiSquare };
     
 private:
-    int fN;
-    double fMinE;
-    double fMaxE;
-    double fThreshold;
-    double fSigma;
+    int fN;// Number of injected events for each energy
+    double fMinE;// Minimum energy
+    double fMaxE;// Maximum energy
+    double fThreshold;// Trigger threshold (mean of the error function)
+    double fSigma;// Sigma of the efficiency curve (sigma of the error function)
     double fEfficiency;// Asympthotic value
     TF1 fEfficiencyCurve;
     std::map<int,double> fK;// map of (energy,k)
@@ -59,12 +50,6 @@ public:
 
     // Overload LogLikelihood to implement model
     double LogLikelihood(const std::vector<double>& pars);
-
-    // Overload LogAprioriProbability if not using built-in 1D priors
-    // double LogAPrioriProbability(const std::vector<double> & pars);
-
-    // Overload CalculateObservables if using observables
-    // void CalculateObservables(const std::vector<double> & pars);
 
     void SetFitMethod( FitMethod method );
 };

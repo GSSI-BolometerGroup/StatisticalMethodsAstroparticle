@@ -15,13 +15,29 @@
 
 #include "Efficiency.h"
 
+// In this example, we simulate a pulse generator injecting artificial pulses into some detector
+// and we run a Bayesian fit with different likelihood functions to evaluate the trigger efficiency.
+// We inject pulses between 1 and 20 keV, with 1 keV steps.
+// For each energy, we inject 1e3 events.
+// Specifically, we generate 1e3 values with a uniform distribution between 0 and 1,
+// compare them with the theoretical efficiency curve, implemented as an error function with mu=3keV and sigma=1keV,
+// and count the number of accepted events k.
+// Then we fit k as a function of energy using three types of fits:
+// 1) Likelihood with a binomial term for each point
+// 2) Likelihood with a Poisson term for each point
+// 3) Chi2
+// Finally, we extract the posterior for the efficiency obtained from each of the 3 fits,
+// and plot them all together.
+
 int main()
 {
     // open log file
     //BCLog::OpenLog("log.txt", BCLog::error, BCLog::error);
     BCLog::OpenLog("log.txt", BCLog::detail, BCLog::detail);
 
+    // Number of injected pulser events
     int N = 1000;
+    // Input trigger efficiency (asymptotic value)
     double P = 0.99;
     
     
@@ -30,24 +46,31 @@ int main()
 			
     // set precision of Markov Chain
     model.SetPrecision(BCEngineMCMC::kMedium);
-			
     BCLog::OutSummary("Test model created");
+    
+    // First fit: binomial likelihood
     model.SetFitMethod( Efficiency::FitMethod::kBinomial );
+    // Run Metropolis-Hastings
     model.MarginalizeAll(BCIntegrate::kMargMetropolis);
     // Find global mode with Minuit, initializing it to the approximate global mode
     // obtained from Metropolis-Hastings
     model.FindMode(model.GetBestFitParameters());
+    // Print some information on the fit
     model.PrintSummary();
+    // Retrieve the marginalized distribution of the efficiency
     TH1D* h_Eff_binomial = (TH1D*)model.GetMarginalizedHistogram("Efficiency")->Clone();
+    // Reset the model
     model.ResetResults();
-    
+
+    // Repeat with Poisson likelihood
     model.SetFitMethod( Efficiency::FitMethod::kPoisson );
     model.MarginalizeAll(BCIntegrate::kMargMetropolis);
     model.FindMode(model.GetBestFitParameters());
     model.PrintSummary();
     TH1D* h_Eff_poisson = (TH1D*)model.GetMarginalizedHistogram("Efficiency")->Clone();
     model.ResetResults();
-    
+
+    // Repeat with Chi2 fit
     model.SetFitMethod( Efficiency::FitMethod::kChiSquare );
     model.MarginalizeAll(BCIntegrate::kMargMetropolis);
     model.FindMode(model.GetBestFitParameters());
@@ -66,32 +89,6 @@ int main()
     h_Eff_poisson->Draw("same");
     h_Eff_ChiSquare->Draw("same");
     app->Run(kTRUE);
-    //////////////////////////////
-    // perform your analysis here
-
-    // Normalize the posterior by integrating it over the full parameter space
-    // model.Normalize();
-
-    // Write Markov Chain to a ROOT file as a TTree
-    // model.WriteMarkovChain(model.GetSafeName() + "_mcmc.root", "RECREATE");
-
-    // run MCMC, marginalizing posterior
-    //model.MarginalizeAll(BCIntegrate::kMargMetropolis);
-
-    // run mode finding; by default using Minuit
-    //model.FindMode(model.GetBestFitParameters());
-
-    // draw all marginalized distributions into a PDF file
-    //model.PrintAllMarginalized(model.GetSafeName() + "_plots.pdf");
-
-    // print summary plots
-    // model.PrintParameterPlot(model.GetSafeName() + "_parameters.pdf");
-    // model.PrintCorrelationPlot(model.GetSafeName() + "_correlation.pdf");
-    // model.PrintCorrelationMatrix(model.GetSafeName() + "_correlationMatrix.pdf");
-    // model.PrintKnowledgeUpdatePlots(model.GetSafeName() + "_update.pdf");
-
-    // print results of the analysis into a text file
-    //model.PrintSummary();
 
     // close log file
     BCLog::OutSummary("Exiting");
