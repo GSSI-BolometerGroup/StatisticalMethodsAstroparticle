@@ -1,0 +1,209 @@
+ +------------------------------------------------------+
+ |                                                      |
+ | BAT version 1.0.0                                    |
+ | Copyright (C) 2007-2018, the BAT core developer team |
+ | All rights reserved.                                 |
+ |                                                      |
+ | For the licensing terms see doc/COPYING              |
+ | For documentation see http://mpp.mpg.de/bat          |
+ | Please cite: DOI 10.1016/j.cpc.2009.06.026           |
+ |              http://arxiv.org/abs/0808.2552          |
+ |                                                      |
+ +------------------------------------------------------+
+Summary : Opening logfile log.txt
+Summary : Test model created
+Summary : Marginalize using Metropolis
+Summary : Pre-run Metropolis MCMC for model "SimultaneousFit" ...
+Summary :  --> Perform MCMC pre-run with 4 chains, each with maximum 100000 iterations
+Detail  :      * Efficiency status: Efficiencies not within predefined range after 500 iterations. Efficiency of 
+Detail  :          chain 0 is below 15 % (10 %). Scale decreased to 0.7553
+Detail  :          chain 1 is below 15 % (14 %). Scale decreased to 0.7553
+Detail  :          chain 2 is below 15 % (6 %). Scale decreased to 0.7553
+Detail  :      * Convergence status: Set of 4 Markov chains did not converge after 500 iterations.
+Detail  :        - Parameter     :  R-Value
+Detail  :          S             :  1.331 <-- Greater than threshold
+Detail  :          B             :  1.072
+Detail  :          Efficiency    :  1.062
+Detail  :          Threshold_eff :  1.118 <-- Greater than threshold
+Detail  :          Sigma_eff     :  1.237 <-- Greater than threshold
+Detail  :      * Efficiency status: Efficiencies not within predefined range after 1000 iterations. Efficiency of 
+Detail  :          chain 0 is below 15 % (10 %). Scale decreased to 0.5035
+Detail  :          chain 1 is below 15 % (7 %). Scale decreased to 0.5035
+Detail  :          chain 2 is below 15 % (5 %). Scale decreased to 0.5035
+Detail  :          chain 3 is below 15 % (2 %). Scale decreased to 0.7553
+Detail  :      * Convergence status: Set of 4 Markov chains did not converge after 1000 iterations.
+Detail  :        - Parameter     :  R-Value
+Detail  :          S             :  1.199 <-- Greater than threshold
+Detail  :          B             :  1.021
+Detail  :          Efficiency    :  1.028
+Detail  :          Threshold_eff :  1.044
+Detail  :          Sigma_eff     :  1.107 <-- Greater than threshold
+Detail  :      * Efficiency status: Efficiencies not within predefined range after 1500 iterations. Efficiency of 
+Detail  :          chain 0 is below 15 % (12 %). Scale decreased to 0.3357
+Detail  :          chain 1 is below 15 % (15 %). Scale decreased to 0.3357
+Detail  :          chain 2 is below 15 % (8 %). Scale decreased to 0.3357
+Detail  :          chain 3 is below 15 % (11 %). Scale decreased to 0.5035
+Detail  :      * Convergence status: Set of 4 Markov chains did not converge after 1500 iterations.
+Detail  :        - Parameter     :  R-Value
+Detail  :          S             :  1.134 <-- Greater than threshold
+Detail  :          B             :  1.012
+Detail  :          Efficiency    :  1.012
+Detail  :          Threshold_eff :  1.019
+Detail  :          Sigma_eff     :  1.048
+Detail  :      * Convergence status: Set of 4 Markov chains did not converge after 2000 iterations.
+Detail  :        - Parameter     :  R-Value
+Detail  :          S             :  1.119 <-- Greater than threshold
+Detail  :          B             :  1.013
+Detail  :          Efficiency    :  1.007
+Detail  :          Threshold_eff :  1.009
+Detail  :          Sigma_eff     :  1.024
+Summary :  --> Set of 4 Markov chains converged within 2500 iterations, and all scales are adjusted.
+Summary :  --> 4 updates to multivariate proposal function's covariances were made.
+Detail  :  --> Scale factors and efficiencies (measured in last 500 iterations):
+Detail  :        - Chain : Scale factor    Efficiency
+Detail  :              0 :        0.3357        21.0 %
+Detail  :              1 :        0.3357        25.4 %
+Detail  :              2 :        0.3357        24.1 %
+Detail  :              3 :        0.5035        21.2 %
+Summary : Run Metropolis MCMC for model "SimultaneousFit" ...
+Summary :  --> Perform MCMC run with 4 chains, each with 100000 iterations.
+Detail  :  --> iteration number  10000 ( 10 %)
+Detail  :  --> iteration number  20000 ( 20 %)
+Detail  :  --> iteration number  30000 ( 30 %)
+Detail  :  --> iteration number  40000 ( 40 %)
+Detail  :  --> iteration number  50000 ( 50 %)
+Detail  :  --> iteration number  60000 ( 60 %)
+Detail  :  --> iteration number  70000 ( 70 %)
+Detail  :  --> iteration number  80000 ( 80 %)
+Detail  :  --> iteration number  90000 ( 90 %)
+Detail  :  --> iteration number 100000 (100 %)
+Summary :  --> Markov chains ran for 100000 iterations.
+Detail  :  --> Efficiencies (measured in 100000 iterations):
+Detail  :        - Chain : Efficiency
+Detail  :              0 :     25.3 %
+Detail  :              1 :     27.6 %
+Detail  :              2 :     24.3 %
+Detail  :              3 :     25.4 %
+Detail  :  --> Global mode from MCMC:
+Detail  :           S             :    20.42
+Detail  :           B             :    23.27
+Detail  :           Efficiency    :    0.900832
+Detail  :           Threshold_eff :    3.0037
+Detail  :           Sigma_eff     :    0.98843
+Summary : Printing all marginalized distributions (5 x 1D + 10 x 2D = 15) into file SimultaneousFit_plots.pdf
+Summary : 
+Summary :  -----------------------------------------------------
+Summary :  Summary
+Summary :  -----------------------------------------------------
+Summary : 
+Summary :  Model summary
+Summary :  =============
+Summary :  Model: SimultaneousFit
+Summary :  Number of parameters: 5
+Summary : 
+Summary :  List of parameters and ranges:
+Summary :  0) S             : [0, 64.27]
+Summary :  1) B             : [0, 64.27]
+Summary :  2) Efficiency    : [0.855, 0.945]
+Summary :  3) Threshold_eff : [2.7, 3.3]
+Summary :  4) Sigma_eff     : [0.75, 1.25]
+Summary : 
+Summary : 
+Summary :  Results of the optimization
+Summary :  ===========================
+Summary :  Optimization algorithm used: Default
+Summary :  Best Fit Results
+Summary :  ===========================
+Summary :  Log of the maximum posterior: -6566.441315
+Summary : 
+Summary :  Global mode:
+Summary :  0)  Parameter "S"             : 20.99 +- 6.973
+Summary :  1)  Parameter "B"             : 22.31 +- 7.075
+Summary :  2)  Parameter "Efficiency"    : 0.900744 +- 0.00236189
+Summary :  3)  Parameter "Threshold_eff" : 3.0025 +- 0.024293
+Summary :  4)  Parameter "Sigma_eff"     : 0.99127 +- 0.033682
+Summary : 
+Summary :  Marginalization algorithm used: Metropolis
+Summary : 
+Summary :  Results of the marginalization
+Summary :  ==============================
+Summary :  List of variables and properties of the marginalized distributions:
+Summary : 
+Summary :   (0) Parameter "S" :
+Summary :       Mean +- sqrt(Variance):         +21.21 +- 7.176
+Summary :       Median +- central 68% interval: +20.96 + 7.347 - 6.881
+Summary :       (Marginalized) mode:            +20.25
+Summary :        5% quantile:                   +9.881
+Summary :       10% quantile:                   +12.24
+Summary :       16% quantile:                   +14.08
+Summary :       84% quantile:                   +28.31
+Summary :       90% quantile:                   +30.58
+Summary :       95% quantile:                   +33.47
+Summary :       Smallest interval containing 70.0% and local mode:
+Summary :       (13.5, 28.28) (local mode at 20.25 with rel. height 1; rel. area 1)
+Summary : 
+Summary :   (1) Parameter "B" :
+Summary :       Mean +- sqrt(Variance):         +24.3 +- 7.43
+Summary :       Median +- central 68% interval: +23.65 + 8.002 - 6.7
+Summary :       (Marginalized) mode:            +20.89
+Summary :        5% quantile:                   +13.27
+Summary :       10% quantile:                   +15.28
+Summary :       16% quantile:                   +16.95
+Summary :       84% quantile:                   +31.65
+Summary :       90% quantile:                   +34.18
+Summary :       95% quantile:                   +37.62
+Summary :       Smallest interval containing 69.2% and local mode:
+Summary :       (15.43, 30.21) (local mode at 20.89 with rel. height 1; rel. area 1)
+Summary : 
+Summary :   (2) Parameter "Efficiency" :
+Summary :       Mean +- sqrt(Variance):         +0.900669 +- 0.00236431
+Summary :       Median +- central 68% interval: +0.900673 + 0.00239631 - 0.00237442
+Summary :       (Marginalized) mode:            +0.90045
+Summary :        5% quantile:                   +0.896704
+Summary :       10% quantile:                   +0.897583
+Summary :       16% quantile:                   +0.898299
+Summary :       84% quantile:                   +0.903069
+Summary :       90% quantile:                   +0.903721
+Summary :       95% quantile:                   +0.904536
+Summary :       Smallest interval containing 74.4% and local mode:
+Summary :       (0.8982, 0.9036) (local mode at 0.90045 with rel. height 1; rel. area 1)
+Summary : 
+Summary :   (3) Parameter "Threshold_eff" :
+Summary :       Mean +- sqrt(Variance):         +3.0025 +- 0.024343
+Summary :       Median +- central 68% interval: +3.0025 + 0.024409 - 0.024627
+Summary :       (Marginalized) mode:            +3.003
+Summary :        5% quantile:                   +2.9623
+Summary :       10% quantile:                   +2.9709
+Summary :       16% quantile:                   +2.9779
+Summary :       84% quantile:                   +3.0269
+Summary :       90% quantile:                   +3.0339
+Summary :       95% quantile:                   +3.0425
+Summary :       Smallest interval containing 73.0% and local mode:
+Summary :       (2.976, 3.03) (local mode at 3.003 with rel. height 1; rel. area 1)
+Summary : 
+Summary :   (4) Parameter "Sigma_eff" :
+Summary :       Mean +- sqrt(Variance):         +0.99262 +- 0.033508
+Summary :       Median +- central 68% interval: +0.99219 + 0.033761 - 0.032819
+Summary :       (Marginalized) mode:            +0.9925
+Summary :        5% quantile:                   +0.93814
+Summary :       10% quantile:                   +0.95004
+Summary :       16% quantile:                   +0.95937
+Summary :       84% quantile:                   +1.026
+Summary :       90% quantile:                   +1.0359
+Summary :       95% quantile:                   +1.0482
+Summary :       Smallest interval containing 70.4% and local mode:
+Summary :       (0.955, 1.025) (local mode at 0.9925 with rel. height 1; rel. area 1)
+Summary : 
+Summary :  Status of the MCMC
+Summary :  ==================
+Summary :  Convergence reached:                    yes
+Summary :  Number of iterations until convergence: 2500
+Summary :  Number of chains:                       4
+Summary :  Number of iterations per chain:         100000
+Detail  :  Scale factors and efficiencies (measured in last 100000 iterations):
+Detail  :  Chain : Scale factor    Efficiency
+Detail  :      0 :       0.3357        25.3 %
+Detail  :      1 :       0.3357        27.6 %
+Detail  :      2 :       0.3357        24.3 %
+Detail  :      3 :       0.5035        25.4 %
+Summary : Exiting
