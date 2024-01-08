@@ -69,7 +69,8 @@ int main()
 	}
     gr_th->SetMarkerStyle(23);
     gr_th->SetMarkerColor(2);
-    
+
+    gStyle->SetOptTitle(0);
     gStyle->SetLabelFont(132,"XY");
     gStyle->SetTitleFont(132,"XY");// Set title font for x-y axes
     gStyle->SetTitleFont(132,"");// Set title font for all TPAds
@@ -77,11 +78,12 @@ int main()
     gStyle->SetFrameLineWidth(0);
     TApplication* app = new TApplication( "app", NULL, 0 );
     TCanvas* can = new TCanvas( "can", "can", 1600, 900 );
+    can->SetLogy();
     can->cd();
     gr->Draw("AP");
     gr_th->Draw("P SAME");
 
-    
+    can->SaveAs("AcceptanceRejection.jpg");    
     app->Run(kTRUE);
     
     return 0;
