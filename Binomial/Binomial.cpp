@@ -83,7 +83,7 @@ int main()
 {
 
     // Define n
-    double n=150;
+    double n=500;
     // Prepare and fill histograms (one for each value of p)
     std::vector<TH1D*> histo;
     int nBins = n+1;
@@ -92,8 +92,10 @@ int main()
     // Loop over possible values of p
     for( double p=0.1; p<=0.9; p+=0.2 )
 	{
-	    std::string name( "n=" + std::to_string(p) );
+	    std::string name( "p=" + std::to_string(p) );
 	    histo.push_back( new TH1D( name.c_str(), name.c_str(), nBins, min, max ) );
+	    histo.back()->GetXaxis()->SetTitle("k");
+	    histo.back()->GetYaxis()->SetTitle("P(k)");
 	    for( int b=1; b<=nBins; b++ )
 		{
 		    double k = histo.back()->GetBinCenter(b);
@@ -111,12 +113,15 @@ int main()
 	}
 
     // Draw all histograms together
+    gStyle->SetOptTitle(0);
+    gStyle->SetOptStat(0);
     TApplication* app = new TApplication( "app", NULL, 0 );
     TCanvas* can = new TCanvas( "can", "can", 1600, 900 );
     can->cd();
     histo[0]->Draw();
     for( long unsigned int i=1; i<histo.size(); i++ )
 	histo[i]->Draw("same");
+    can->SaveAs("Binomial.jpg");
     app->Run(kTRUE);
     
     return 0;
