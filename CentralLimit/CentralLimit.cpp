@@ -74,7 +74,7 @@ int main()
 	    can->GetPad(i+1)->SetRightMargin(0.02);
 	    can->GetPad(i+1)->SetLeftMargin(0.07);
 	    can->GetPad(i+1)->SetBottomMargin(0.18);
-	    //can->GetPad(i+1)->SetLogy();
+	    can->GetPad(i+1)->SetLogy();
 	    histo[i]->GetYaxis()->SetRangeUser(1.e-1,1.1*histo[i]->GetMaximum());
 	    histo[i]->GetXaxis()->SetTitle("g");
 	    histo[i]->GetXaxis()->SetLabelSize(0.1);
@@ -100,6 +100,7 @@ int main()
 	    histo[i]->Draw("SAME");
 	}
     can->SaveAs("CentralLimit.pdf");
+    can->SaveAs("CentralLimitLog.jpg");
     app->Run(kTRUE);
     
     return 0;
