@@ -149,6 +149,8 @@ int main()
 	    h_eff_binomial[c]->Draw("same");
 	    h_eff_chi2[c]->Draw("same");
 	}
+
+    can->SaveAs("Efficiency.jpg");
     app->Run(kTRUE);
     //////////////////////////////
     // perform your analysis here
