@@ -196,6 +196,8 @@ int main()
     FCbelt->Draw("colz");
     can->cd(5);
     coverage->Draw();
+    can->SaveAs("FeldmanCousinsKATRIN.jpg");
+     
     app->Run();
         
     return 0;

@@ -139,6 +139,8 @@ int main()
     belt68->Draw("colz");
     can->cd(3);
     coverage->Draw();
+    can->SaveAs("NeymanBeltBinomial.jpg");
+
     app->Run();
     
     return 0;

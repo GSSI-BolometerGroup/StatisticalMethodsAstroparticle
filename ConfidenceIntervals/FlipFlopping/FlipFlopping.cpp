@@ -169,6 +169,8 @@ int main()
     beltcombined->Draw("colz");
     can->cd(4);
     coverage->Draw();
+    can->SaveAs("FlipFlopping.jpg");
+    
     app->Run();
         
     return 0;

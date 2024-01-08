@@ -241,6 +241,9 @@ int main()
     coverage->Draw();
     can->cd(6);
     toycoverage->Draw();
+
+    can->SaveAs("FeldmanCousins.jpg");
+	
     app->Run();
         
     return 0;

@@ -159,7 +159,7 @@ int main()
     poissonSquared->SetNpx(10000);
     poissonSquared->Draw("same");
     
-    
+    can->SaveAs("Quadratic.jpg");    
     app->Run(kTRUE);
     
     return 0;

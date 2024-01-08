@@ -79,6 +79,9 @@ int main()
     can->cd(2);
     theta->Draw();
     theta->Fit(func,"RL");
+
+    can->SaveAs("NeymanBeltGaussian.jpg");
+    
     app->Run();
     
     return 0;

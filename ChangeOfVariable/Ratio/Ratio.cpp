@@ -96,6 +96,8 @@ int main()
     can->cd(3);
     hZ->Draw();
     fZ->Draw("same");
+
+    can->SaveAs("Ratio.jpg");
     app->Run();
     
     return 0;

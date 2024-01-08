@@ -71,6 +71,7 @@ int main()
 	    dataChi2[i]->Draw();
 	    theoreticalChi2[i]->Draw("SAME");
 	}
+    can->SaveAs("Chi2.jpg");
     app->Run(kTRUE);
     return 0;
 }

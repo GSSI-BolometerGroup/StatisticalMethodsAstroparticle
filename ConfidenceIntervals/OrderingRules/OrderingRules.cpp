@@ -179,6 +179,8 @@ int main()
     shortest->Draw("same");
     modehisto->Draw("same");
     posterior->Draw("AXIS SAME");
+
+    can->SaveAs("OrderingRules.jpg");
     app->Run();
     
     return 0;
