@@ -51,8 +51,8 @@ Efficiency::Efficiency( const std::string& name,
 
 
     // Add parameters
-    double minEff = 0.;
-    double maxEff = 1.;
+    double minEff = std::max( 0., 0.95*fEfficiency );
+    double maxEff = std::min( 1., 1.05*fEfficiency );
     AddParameter( "Efficiency", minEff, maxEff, "#epsilon", "" );
     GetParameters().Back().SetPrior( new BCConstantPrior() );// Flat between 0 and 1 for the efficiency
     GetParameters().Back().SetNbins(300);

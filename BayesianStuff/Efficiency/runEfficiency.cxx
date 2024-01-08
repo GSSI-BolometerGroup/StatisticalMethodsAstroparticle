@@ -12,6 +12,8 @@
 #include "TH1D.h"
 #include "TCanvas.h"
 #include "TApplication.h"
+#include "TStyle.h"
+#include "TLegend.h"
 
 #include "Efficiency.h"
 
@@ -79,6 +81,8 @@ int main()
     model.ResetResults();
 
     // Draw
+    gStyle->SetOptTitle(0);
+    gStyle->SetOptStat(0);
     TApplication* app = new TApplication( "app", NULL, 0 );
     TCanvas* can = new TCanvas( "can", "can", 1600, 900 );
     can->cd();
@@ -88,6 +92,15 @@ int main()
     h_Eff_binomial->Draw();
     h_Eff_poisson->Draw("same");
     h_Eff_ChiSquare->Draw("same");
+
+    TLegend* leg = new TLegend( 0.2, 0.7, 0.4, 0.89 );
+    leg->SetLineWidth(0);
+    leg->AddEntry( h_Eff_binomial,  "Binomial", "l" );
+    leg->AddEntry( h_Eff_poisson,   "Poisson",  "l" );
+    leg->AddEntry( h_Eff_ChiSquare, "#Chi^{2}", "l" );
+    leg->Draw("same");
+    
+    can->SaveAs("Efficiency.jpg");
     app->Run(kTRUE);
 
     // close log file
