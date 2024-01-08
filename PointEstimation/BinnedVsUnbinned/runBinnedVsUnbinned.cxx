@@ -101,8 +101,10 @@ int main()
     TApplication* app = new TApplication( "app", NULL, 0 );
     TCanvas* can = new TCanvas( "can", "can", 1600, 900 );
     can->cd();
+    can->SetGridx();
     can->SetGridy();
     gr_ratio->Draw("AP");
+    can->SaveAs("BinnedVsUnbinned.jpg");
     app->Run();
     
     return 0;

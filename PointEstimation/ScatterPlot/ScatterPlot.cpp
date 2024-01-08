@@ -129,7 +129,7 @@ int main()
     h_Chi2->Draw();
     theoreticalChi2->Draw("SAME");
 
-    
+    can->SaveAs("ScatterPlot.jpg");    
     app->Run();
     
     return 0;

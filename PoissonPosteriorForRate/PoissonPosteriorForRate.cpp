@@ -90,6 +90,8 @@ int main()
     yaxis->SetTitle("P(#lambda|n=5)");
     yaxis->Draw();
 
+    can->SaveAs("PoissonPosteriorForRate.jpg");
+    
     app->Run(kTRUE);
     
     return 0;

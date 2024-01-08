@@ -164,7 +164,7 @@ int main()
 	leg->AddEntry( h, h->GetName(), "L" );
     leg->Draw();
 	
-    
+    can->SaveAs("ScatterPlotWithSystematic.jpg");    
     app->Run();
     
     return 0;

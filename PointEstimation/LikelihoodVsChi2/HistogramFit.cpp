@@ -225,6 +225,12 @@ int main()
 	    h_sb_PearsonChi2[c]->Draw("colz");
 	}
 
+    can1->SaveAs("LikelihoodVsChi2_1.jpg");
+    can2->SaveAs("LikelihoodVsChi2_2.jpg");
+    can3->SaveAs("LikelihoodVsChi2_3.jpg");
+    can4->SaveAs("LikelihoodVsChi2_4.jpg");
+    can5->SaveAs("LikelihoodVsChi2_5.jpg");
+    
     app->Run(kTRUE);
     
     return 0;

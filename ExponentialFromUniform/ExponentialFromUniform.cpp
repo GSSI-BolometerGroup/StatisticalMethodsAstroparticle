@@ -43,6 +43,8 @@ int main()
     double minDeltaT = 0;
     double maxDeltaT = 1.01 * ( *std::max_element( deltaT.begin(), deltaT.end() ) );// Set the histogram range to accomodate all delta-t entries
     TH1D* histo = new TH1D( "DeltaT", "DeltaT", nBins, minDeltaT, maxDeltaT );
+    histo->GetXaxis()->SetTitle("#delta t [bananas]");
+    histo->GetYaxis()->SetTitle("Entries");
     for( auto& t:deltaT )
 	histo->Fill(t);
 
@@ -73,11 +75,15 @@ int main()
     std::cout << "Theoretical value for rate: " << r << std::endl;
     
     // Draw and fit
+    gStyle->SetOptTitle(0);
+    gStyle->SetOptStat(0);
+    gStyle->SetOptFit(1);
     TApplication* app = new TApplication( "app", NULL, 0 );
     TCanvas* can = new TCanvas( "can", "can", 1600, 900 );
     can->cd();
     histo->Draw();
     histo->Fit(func,"LLR" );
+    can->SaveAs("ExponentialFromUniform.jpg");
     app->Run(kTRUE);
 
     

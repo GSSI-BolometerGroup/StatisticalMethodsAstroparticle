@@ -119,8 +119,20 @@ int main()
 		}
 		    
 	}
+
+
+    random_x->GetXaxis()->SetTitle("x_{random} [bananas]");
+    random_x->GetYaxis()->SetTitle("Entries");
+    random_diff->GetXaxis()->SetTitle("#delta x_{random} [bananas]");
+    random_diff->GetYaxis()->SetTitle("Entries");
+
+    mcmc_x_accepted->GetXaxis()->SetTitle("x_{mcmc} [bananas]");
+    mcmc_x_accepted->GetYaxis()->SetTitle("Entries");
+    mcmc_diff_accepted->GetXaxis()->SetTitle("#delta x_{mcmc} [bananas]");
+    mcmc_diff_accepted->GetYaxis()->SetTitle("Entries");
     
     // Draw
+    gStyle->SetOptTitle(0);
     TApplication* app = new TApplication( "app", NULL, 0 );
     TCanvas* can = new TCanvas( "can", "can", 1600, 900 );
     can->Divide(2,2);
@@ -132,6 +144,9 @@ int main()
     mcmc_x_accepted->Draw();
     can->cd(4);
     mcmc_diff_accepted->Draw();
+
+    can->SaveAs("RandomNumberCorrelation.jpg");
+    
     app->Run(kTRUE);
     return 0;
 }

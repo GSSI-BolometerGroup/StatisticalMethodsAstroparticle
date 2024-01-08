@@ -170,6 +170,7 @@ int main()
 	    binomialHisto[c]->Draw("SAME");
 	    poissonHisto[c]->Draw("SAME");
 	}
+    can->SaveAs("Poisson.jpg");
     app->Run(kTRUE);
 
     return 0;
