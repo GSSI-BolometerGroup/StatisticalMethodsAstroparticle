@@ -1,0 +1,95 @@
+
+%----------------------------------------------------------------------------------------
+%	INTRODUCTION
+%----------------------------------------------------------------------------------------
+
+\cleardoublepage
+\chapter{Introduction} % The asterisk leaves out this chapter from the table of contents
+\label{ch:intro}
+
+\section{Language conventions}\index{language conventions}
+
+\newthought{Language conventions} are sometimes different between physicists and statisticians.
+
+\begin{table} % Add the following just after the closing bracket on this line to specify a position for the table on the page: [h], [t], [b] or [p] - these mean: here, top, bottom and on a separate page, respectively
+	\centering % Centers the table on the page, comment out to left-justify
+	\begin{tabular}{c c} % The final bracket specifies the number of columns in the table along with left and right borders which are specified using vertical bars (|); each column can be left, right or center-justified using l, r or c. To specify a precise width, use p{width}, e.g. p{5cm}
+		\toprule % Top horizontal line
+		Physicist says & Statistician says\\ % Column names row
+		\midrule % In-table horizontal line
+		determine & estimate\\ % Content row 1
+		estimate & guess\\ % Content row 2
+		\bottomrule % Bottom horizontal line
+	\end{tabular}
+	\caption{Language example 1} % Table caption, can be commented out if no caption is required
+	\label{tab:LangEx1} % A label for referencing this table elsewhere, references are used in text as \ref{label}
+\end{table}
+
+\begin{table}
+	\centering
+	\begin{tabular}{c c}
+		\toprule
+		Demographic language & Physics language\\
+		\midrule
+		Sample & Data (set)\\
+		Draw a sample & Observe, measure\\
+		Sample of size $N$ & $N$ observations \\
+		Population & Observable space\\
+		\bottomrule
+	\end{tabular}
+	\caption{Language example 2}
+	\label{tab:LangEx2}
+\end{table}
+
+\begin{itemize}[$\to$]
+	\item Think about a census, or an election poll. 
+		\marginnote{We will specify: “Parent mean = population mean = mean of the underlying distribution” 
+		
+		or: “sample mean”}
+	\item We need to distinguish between the properties of the sample and these of the underlying population.
+\end{itemize}
+
+Avoid \mono{misleading terms}\index{language conventions!misleading terms}:
+
+\begin{itemize}
+	\item error $\to$ variance, confidence interval, interval estimate, credible interval
+	\item propagation of error $\to$ change of variable
+\end{itemize}
+
+\section{Two philosophies}
+
+\begin{itemize}[$\to$]
+	\item \newthought{Bayesian} approach\index{Bayesian approach} measures the “degree of belief”\index{degree of belief} that a statement is true.
+	\item \newthought{Frequentist} approach\index{frequentist approach} measures the relative frequency of something happening.
+\end{itemize}
+
+\begin{table}
+	\centering
+	\begin{tabular}{c c c}
+		\toprule
+		& Bayesian & Frequentist\\
+		\midrule
+		Statement depends on observer & $\times$ & \\
+		Applier to repeatable cases & $\times$ & $\times$\\
+		Applier to future unknown facts & $\times$ & \\
+		Applier to past unknown facts & $\times$ & \\
+		Applier to possible outcome of an experiment & $\times$ & \\
+		Applier to the true value of a parameter & $\times$ & \\
+		\tabincell{c}{Allows goodness-of-fit \\ (single hypothesis testing)} & & $\times$\\
+		Allows decision theory & $\times$ & \\
+		\bottomrule
+	\end{tabular}
+	\caption{Two philosophies}
+	\label{tab:2philosophies}
+\end{table}
+
+\section{Notation} \index{language conventions!notation}
+
+\begin{itemize}[$\to$]
+	\item \mono{Greek letters}: parameters of the theory: $\theta$, $\mu$, $\sigma$, $\cdots$
+	\item \mono{Roman letters}: random variable corresponding to physical observables: $x$, $E$, $\cdots$
+	\item \mono{Capitalized}: $P$, probability distribution\index{probability distribution}; $F$, cumulative distribution\index{cumulative distribution}
+	\item \mono{Lowercase}: $p$ or $f$, probability density function\index{probability density function}
+	\item \mono{Bar}: average value: $\bar{x}$, $\bar{E}$, $\cdots$
+	\item \mono{Hat}: estimate of parameter (often mode\index{mode} of the parameter): $\hat{\theta}$, $\hat{\mu}$, $\hat{\sigma}$, $\cdots$
+\end{itemize}

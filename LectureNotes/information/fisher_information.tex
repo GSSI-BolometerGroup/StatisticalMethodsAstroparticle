@@ -1,0 +1,95 @@
+
+%------------------------------------------------
+
+\section{Fisher information}\index{Fisher information}
+\label{sec:fisher_info}
+
+\subsection{Definition of Fisher information}
+\label{subsec:def_of_fisher_info}
+
+Assume that:
+
+\begin{enumerate}
+	\item $\Omega_{\theta}$ is independent of $\vec{\theta}$.
+	\item $f\left( \vec{x} \mid \vec{\theta} \right)$ is regular enough so that the operator $\frac{\partial^{2}}{\partial \theta_{1} \partial \theta_{2}}$ and $\int \,\mathrm{d}\vec{x}$ commute.
+\end{enumerate}
+
+The Fisher information gives by an observation $x$ about the parameter $\theta$ is defined as:
+
+\begin{equation}\label{eq:def_of_fisher_info}
+	\mathcal{I}_{\mathcal{F}}(\theta) 
+	= \mathrm{E}\left[ \left. \left( 
+	\frac{\partial \ln f(x ; \theta)}
+		{\partial \theta} \right)^{2} 
+	\right| \theta \right] 
+	= \int _{\Omega} {\left( 
+	\frac{\partial \ln f(x ; \theta)}
+		{\partial \theta} \right)^{2} 
+	f(x ; \theta)} \, \mathrm{d}x
+\end{equation}
+
+If $\ln f(x ; \theta)$ is twice differentiable with respect to $\theta$, and under certain regularity conditions, then the Fisher information may also be written as
+
+\begin{equation}\label{eq:def_of_fisher_info_twice_differentiable}
+	\mathcal{I}_{\mathcal{F}}(\theta) 
+	= - \mathrm{E}\left[ \left. 
+	\frac{\partial^{2} \ln f(x ; \theta)}
+		{\partial \theta^{2}} 
+	\right| \theta \right] 
+\end{equation}
+
+\subsection{In terms of likelihood}
+\label{subsec:fisher_info_ll}
+
+Because the likelihood of $\theta$ given $x$ is always proportional to the probability $f(x ; \theta)$, their logarithms necessarily differ by a constant that is independent of $\theta$, and the derivatives of these logarithms with respect to $\theta$ are necessarily equal. 
+
+Thus one can substitute in a log-likelihood $\ell(\theta ; x) = \ln \mathcal{L}(\theta ; x)$ \index{log-likelihood} instead of $\ln f(x ; \theta)$ in the definitions of Fisher information:
+
+\begin{equation}\label{eq:fisher_info_ll}
+	\mathcal{I}(\theta) 
+	= \mathrm{E}\left[ \left. \left( 
+	\frac{\partial \ell(\theta ; x)}
+		{\partial \theta} \right)^{2} 
+	\right| \theta \right] 
+	= - \mathrm{E}\left[ \left. 
+	\frac{\partial^{2} \ell(\theta ; x)}
+		{\partial \theta^{2}} 
+	\right| \theta \right] 
+\end{equation}
+
+\subsection{Multidimension case}
+\label{subsec:fisher_info_k_dim}
+
+If $\vec{\theta}$ has $k$ dimensions, $\mathcal{I}(\theta)$ is a $k \times k$ matrix:
+
+\begin{equation}\label{eq:fisher_info_k_dim}
+	\bigl[ \mathcal{I}(\theta) \bigr]_{i, j} 
+	= \mathrm{E}\left[ \left. 
+	\frac{\partial \ell(\theta ; x)}
+		{\partial \theta_{i}} \cdot 
+	\frac{\partial \ell(\theta ; x)}
+		{\partial \theta_{j}} 
+	\right| \theta \right] 
+	= \int _{\Omega} { 
+	\frac{\partial \ell(\theta ; x)}
+		{\partial \theta_{i}} \cdot 
+	\frac{\partial \ell(\theta ; x)}
+		{\partial \theta_{j}} \cdot 
+	\mathcal{L}(\theta ; x)} \, \mathrm{d}x
+\end{equation}
+
+Equivalently, one can prove that:
+
+\begin{equation}\label{eq:fisher_info_twice_differentiable_k_dim}
+	\bigl[ \mathcal{I}(\theta) \bigr]_{i, j} 
+	= - \mathrm{E}\left[ \left. 
+	\frac{\partial^{2} \ell(\theta ; x)}
+		{\partial \theta_{i} \partial \theta_{j}} 
+	\right| \theta \right]
+\end{equation}
+
+The Fisher information is additive:
+
+\begin{equation}\label{eq:fisher_info_additive}
+	\mathcal{I}_{n}(\theta) = n \mathcal{I}_{1}(\theta) 
+\end{equation}

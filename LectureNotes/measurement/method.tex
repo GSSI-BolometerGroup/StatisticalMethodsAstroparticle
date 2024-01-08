@@ -1,0 +1,51 @@
+
+%------------------------------------------------
+
+\section{Addressed question \mono{vs} required method}\index{measurement!method}
+\label{sec:measurement_method}
+
+Each of the 4 questions listed above requires the use of dedicated statistical and computational methods.
+
+Understanding the relation between addressed questions and required methods is fundamental, and will save you a lot of time in the future.
+
+\marginnote{Trust me!}
+
+\subsection{Point estimation}
+\label{subsec:method_point_estimation}
+
+Find the parameter value $\hat{\theta}$ that maximize $\mathcal{L}$.
+
+\begin{itemize}[$\to$]
+	\item Minimizer algorithms (gradient follower) 
+\end{itemize}
+
+\subsection{Interval estimation}
+\label{subsec:method_interval_estimation}
+
+Study the tails of $\mathcal{L}$ or of the posterior $P\left( \theta \mid \vec{x} \right)$.
+
+\begin{itemize}[$\to$]
+	\item Study all possible combinations of $\vec{\theta}$ giving $\vec{x}$.
+		$\Rightarrow$ Toy Monte Carlo\index{toy Monte Carlo}
+	\item Map the posterior $P\left( \theta \mid \vec{x} \right)$.
+		$\Rightarrow$ Markov chain Monte Carlo\index{Markov chain Monte Carlo}
+\end{itemize}
+
+\subsection{Goodness of fit}
+\label{subsec:method_goodness_of_fit}
+
+Quantify the probability of a random fluctuation to give a worse fit.
+
+\begin{itemize}[$\to$]
+	\item Analytical method (\eg $\chi^{2}$) plus lookup tables.
+		$\Rightarrow$ Toy Monte Carlo
+\end{itemize}
+
+\subsection{Hypothesis testing}
+\label{subsec:hypothesis_test}
+
+Compare the signal strength with the probability of a similarly strong background fluctuation.
+
+\begin{itemize}[$\Rightarrow$]
+	\item Toy Monte Carlo + some method to compare validity of alternative hypotheses.
+\end{itemize}

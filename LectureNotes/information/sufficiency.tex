@@ -1,0 +1,44 @@
+
+%------------------------------------------------
+
+\section{Sufficiency}\index{sufficiency}
+\label{sec:sufficiency}
+
+A statistic $t = t(\vec{x})$ is sufficient for $\vec{\theta}$ if the conditional density function of $\vec{x}$ given $t$, $f(\vec{x} \mid t)$ is independent of $\vec{\theta}$.
+
+If $t$ is a sufficient statistic, any strictly monotonic function of $t$ is also a sufficient statistic.
+
+\begin{itemize}[$\to$]
+	\item There is as much information about $\vec{\theta}$ in $t$ as there is in the original data $\vec{x}$.
+	\item No other function of the data can give any further information about $\vec{\theta}$.
+\end{itemize}
+
+\newthought{Example}:
+
+The set $t = \vec{x}$ is sufficient, since it carries all the initial information. However, it provides no data reduction, so it is useless.
+
+If $t(\vec{x})$ is a sufficient statistic for $\vec{\theta}$, the likelihood function as:
+
+\begin{equation}\label{eq:likelihood_sufficiency}
+	\mathcal{L}\left( \vec{\theta} \mid \vec{x} \right) 
+	= g(t, \vec{\theta}) h(\vec{x})
+\end{equation}
+
+and viceversa.
+
+where:
+
+\begin{description}
+	\item $h(\vec{x})$ does not depend on $\vec{\theta}$.
+	\item $g(t, \vec{\theta}) \propto A(t \mid \vec{\theta})$, the conditional probability density for $t$ given $\vec{\theta}$.
+\end{description}
+
+In general, for any statistic $t$:
+
+\begin{equation}
+	\mathcal{I}_{t}(\vec{\theta}) \leq \mathcal{I}_{x}(\vec{\theta})
+\end{equation}
+
+with the equality if and only if $t$ is a sufficient statistic.
+
+In other words, the information provided by a sufficient statistic is the same as that of the original sample $\vec{x}$.

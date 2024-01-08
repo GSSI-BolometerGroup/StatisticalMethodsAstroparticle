@@ -1,0 +1,65 @@
+
+%------------------------------------------------
+
+\section{Choose approaches and specify the questions}
+\label{sec:measurement_approach}
+
+So far, we have used a very vague language on purpose. To be more specific, we need to choose either the frequentist or the Bayesian approach, and specify the questions addressed by each of them.
+
+\subsection{Frequentist approach}\index{frequentist approach}
+\label{subsec:measurement_approach_frequentist}
+
+\paragraph{Assumptions}
+
+The true value of the parameter $\theta$ is fixed but unknown. We cannot associate a PDF to $\theta$, but just to the data $\vec{x}$.
+
+\paragraph{Point estimation}
+
+Based on the measured data, what is our best “estimate” for the fixed unknown parameter?
+
+What is the estimate that is closer to the true value?
+
+\paragraph{Interval estimation}
+
+\marginnote[6pt]{If we repeat the measurement 100 times, we will have 100 different intervals, and the true value will be contained in them 68 times.}
+
+Based on the measured data, what interval contains the true value with a predefined amount of probability (\eg 68\%)?
+
+\paragraph{Goodness of fit}
+
+Does my model provide a suitable description of the data, or is there any indication that it should be modified \mono{somehow}?
+
+\paragraph{Hypothesis testing}
+
+\marginnote[6pt]{Assuming $H_{0}$ is true, what is the probability that the data will fake $H_{1}$ (and viceversa)?}
+
+Based on the data, which among two (or more) alternative hypotheses is true?
+
+\subsection{Bayesian approach}\index{Bayesian approach}
+\label{subsec:measurement_approach_bayesian}
+
+In the Bayesian approach, the probability is interpreted as a “degree of belief”\index{degree of belief} and can be therefore applied to a wider range of elements, including:
+
+\begin{itemize}
+	\item random variables
+	\item (true) parameters of a model
+	\item hypotheses
+\end{itemize}
+
+\paragraph{Point estimation}
+
+Based on the measured data, what is the most probable value for the parameter $\theta$?
+
+\paragraph{Interval estimation}
+
+Based on the measured data, what is the interval of the PDF of $\theta$, $f(\theta)$, that contains a given amount of probability (\eg 68\%)?
+
+\paragraph{Goodness of fit}
+
+This question makes no sense in the Bayesian approach, because we cannot compare one hypothesis with $n$ unknown ones.
+
+\paragraph{Hypothesis testing}
+
+\marginnote[6pt]{Assuming $H_{0}$ is true, what is the probability that the data will fake $H_{1}$ (and viceversa)?}
+
+Based on the data, what is the ratio of the probabilities of hypotheses $H_{0}$ and $H_{1}$?

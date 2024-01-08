@@ -1,0 +1,49 @@
+
+%------------------------------------------------
+
+\section{Definition of point estimation}\index{point estimation}
+\label{sec:def_of_point_estimation}
+
+Most of this is frequentist exclusively, even if some methods are easily applicable to a Bayesian approach.
+
+\subsection{Inference}\index{inference}
+\label{subsec:point_estimation_inference}
+
+The inference is the process of determining an estimated value $\hat{\theta}$ and the corresponding uncertainty of some parameter $\theta$ from experimental data.
+
+$$
+	\mathrm{Theory \ model} 
+	\overset{\mathrm{probability}}
+	{
+		\underset{\mathrm{inference}}
+		{\rightleftharpoons}
+	} 
+	  \mathrm{data}
+$$
+
+\begin{itemize}
+	\item Probability: data fluctuate according to randomness of process and of the experimental response.
+	\item Inference: model parameters are uncertain due to fluctuations in the finite data sample.
+\end{itemize}
+
+\subsection{Estimators and estimates}\index{estimator}\index{estimate}
+\label{subsec:point_estimator_and_estimate}
+
+The estimate of an unknown parameter is a mathematical procedure to determine the central value of the parameter as a function of the observed data sample.
+
+The function of the data sample that returns the estimate is called “estimator”.
+
+\newthought{Example}: If I measure the mass of an object once, the measured value is an estimate of the object mass:
+
+$$
+\hat{m}(x) = x
+$$
+
+\paragraph{Properties of estimators}
+
+\begin{itemize}[$\to$]
+	\item Consistency
+	\item Unbiasedness
+	\item Information content or efficiency
+	\item Robustness
+\end{itemize}

@@ -1,0 +1,87 @@
+
+%------------------------------------------------
+
+\section{Numerical algorithms with Monte Carlo}\index{Monte Carlo method}
+\label{sec:numerical_monte_carlo}
+
+\subsection{Numerical integration with Monte Carlo}\index{numerical integration}
+\label{subsec:numerical_int}
+
+The acceptance-rejection method estimates the integral $\int_{x_{1}}^{x_{2}}{f(x)} \,\mathrm{d}x$ from the fraction of accepted events $k$ over the number $n$ of generated events:
+
+\begin{equation}\label{eq:numerical_int}
+	I = \int_{x_{1}}^{x_{2}}{f(x)} \,\mathrm{d}x \simeq (x_{2} - x_{1}) \cdot m \cdot \frac{k}{n}
+\end{equation}
+
+The uncertainty is (we will see it in some future lecture):
+
+\begin{equation}\label{eq:uncertainty_of_numerical_int}
+	\sigma_{\hat{I}} = \sqrt{\frac{\hat{I} \left[ (x_{2} - x_{1}) \cdot m - \hat{I} \right]}{n}}
+\end{equation}
+
+Notice that there is no dependence on the dimensionality.
+
+This makes Monte Carlo method advantageous when computing the integral of high-dimensionality PDFs.
+
+The problem, however, might be to find the maximum of $f(x)$.
+
+\subsection{Markov chain Monte Carlo}\index{Markov chain Monte Carlo}
+\label{subsec:mcmc}
+
+Some probability distributions can be sampled more efficiently by producing sequence of correlated pseudorandom number, where each $x_{i}$ depends on the previous $m$ extractions.
+
+A sequence of random variables $x_{0}, x_{1}, \cdots, x_{n}$ is a Markov chain if the PDF obeys to:
+
+\begin{equation}\label{eq:mcmc_pdf}
+	f(x_{n + 1} ; x_{0}, \cdots, x_{n}) = f(x_{n + 1} ; x_{n})
+\end{equation}
+
+\ie, if $f(x_{n + 1})$ depends only on the immediately previous extraction.
+
+This works in any dimension.
+
+\subsection{Metropolis–Hastings algorithm}\index{Metropolis–Hastings algorithm}
+\label{subsec:metropolis}
+
+A common Markov chain Monte Carlo algorithm is Metropolis–Hastings algorithm.
+
+Suppose we want to sample a PDF $f(\vec{x})$. We do the following:
+
+\begin{enumerate}
+	\item Pick a point $\vec{x}_{0}$ uniformly distributed in the sample space $\Omega$.
+	\item Evaluate $f(\vec{x}_{0})$.
+	\item Generate a second point $\vec{x}$ according to a predefined PDF $q(\vec{x}, \vec{x}_{0})$, called “proposal distribution”.
+	\item Evaluate $f(\vec{x})$.
+	\item Generate a uniform number $u \in [0, 1)$.
+	\item If
+		$$
+		\frac{f(\vec{x}) q(\vec{x}_{0}, \vec{x})}{f(\vec{x}_{0}) q(\vec{x}, \vec{x}_{0})} > u
+		$$
+		accept the point and set $\vec{x}_{1} = \vec{x}$. Otherwise, reject $\vec{x}$.
+		\marginnote{Notice that: if $q(\vec{x}, \vec{x}_{0}) = q(\vec{x}_{0}, \vec{x})$, the condition 6. can be simplified.
+		
+		Usually the proposal function is a multivariate with a fixed standard normal distribution.}
+	\item Iterate back to 3. , substituting $\vec{x}_{0} \to \vec{x}_{1}$, if the point was accepted.
+\end{enumerate}
+
+\subsection{Properties of Metropolis–Hastings algorithm}\index{Metropolis–Hastings algorithm!property}
+\label{subsec:prop_of_metropolis}
+
+\begin{itemize}[$\to$]
+	\item Metropolis–Hastings algorithm allows to \mono{map} an n-dimensional PDF.
+		\begin{description}
+			\item The condition 6. ensures that if we move to a higher point, the move is always accepted. But at the same time, we have a small but \mono{non-zero} probability to accept also lower points.
+		\end{description}
+	\item Metropolis–Hastings algorithm does not always find the mode of the distribution!
+		\begin{description}
+			\item It will find it if you have few dimensions, but it will not if you have $\mathrm{dim} \gtrsim 10$.
+				\marginnote{By experience.}
+		\end{description}
+\end{itemize}
+
+\newthought{Examples}:
+
+\begin{itemize}[$\to$]
+	\item Drunk Markov in golf course.
+	\item \nameref{exer:random_number_corr}.
+\end{itemize}

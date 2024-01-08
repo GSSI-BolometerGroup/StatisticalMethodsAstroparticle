@@ -1,0 +1,25 @@
+
+%------------------------------------------------
+
+\section{Definition of likelihood}\index{likelihood}
+\label{sec:def_of_likelihood}
+
+Let's take a real random variable $\vec{x}$ with PDF $f\left( \vec{x} \mid \vec{\theta} \right) $, where $\vec{\theta}$ is a set of real parameters.
+
+The set of allowed values of $\vec{x}$ is $\Omega_{\theta}$, which might depend on $\vec{\theta}$.
+
+Suppose we make a set of $n$ observations of $\vec{x}$: $\vec{x}_{1}, \vec{x}_{2}, \cdots, \vec{x}_{n}$. The joint PDF of $\vec{x}$ is:
+
+\begin{equation}
+	P\left( \vec{x} \mid \vec{\theta} \right) 
+	= P\left( \vec{x}_{1}, \cdots, \vec{x}_{n} \mid \vec{\theta} \right) 
+	= \prod_{i = 1}^{n} {f\left( \vec{x}_{i} \mid \vec{\theta} \right)}
+\end{equation}
+
+Since the values $\vec{x}_{i}$ are fixed, $P\left( \vec{x} \mid \vec{\theta} \right)$ is no longer a PDF, but \mono{only a function of} $\vec{\theta}$, and we denote it as $\mathcal{L}$:
+
+\begin{equation}\label{eq:def_of_likelihood}
+	\mathcal{L}\left( \vec{\theta} \right) 
+	= \mathcal{L}\left( \vec{\theta} \mid \vec{x} \right) 
+	= \prod_{i = 1}^{n} {f\left( \vec{\theta} \mid \vec{x}_{i} \right)}
+\end{equation}

@@ -1,0 +1,22 @@
+
+%------------------------------------------------
+
+\section{Definition of measurement}\index{measurement}
+\label{sec:def_of_measurement}
+
+In general, whenever we perform a measurement, we need to convey the results in a clear and synthetic way. Often times our result is a number (or a set of numbers) that will/should be used by other in the future, so we need to minimize the possible ambiguity on the underlying meaning of the quantity we quote.
+
+Suppose we collect some data $\vec{x}$ distributed with a PDF $f(\vec{x} \mid \vec{\theta})$, and want to make a statement on one parameter $\theta$ (out of the vector $\vec{\theta}$).
+
+We can ask the following questions:
+
+\begin{itemize}[$\to$]
+	\item Based on the measured data $\vec{x}$, what is the single value $\hat{\theta}$ that is closest to the true (unknown) value of $\theta$?
+		$\Rightarrow$ Point estimation
+	\item Based on the measured data $\vec{x}$, what is the range of values that is most likely to include the true (unknown) value of $\theta$?
+		$\Rightarrow$ Interval estimation
+	\item Is our model $f(\vec{x} \mid \vec{\theta})$ good enough to describe the measured data?
+		$\Rightarrow$ Goodness of fit
+	\item In the case we want to test the existence of new physics, \eg the presence of a new signal over a known background, are the measured data described better by the background-only\index{hypothesis!background-only} or by the signal+background\index{hypothesis!signal+background} model?
+		$\Rightarrow$ Hypothesis testing
+\end{itemize}

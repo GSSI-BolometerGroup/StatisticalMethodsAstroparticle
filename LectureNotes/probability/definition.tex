@@ -1,0 +1,67 @@
+
+%------------------------------------------------
+
+\section{Definition of probability}\index{probability}
+\label{sec:def_of_prob}
+
+\subsection{Mathematical probability}\index{mathematical probability}
+
+\lipsum[6-7]
+
+\subsection{Frequentist probability}\index{frequentist probability}
+
+\lipsum[7-8]
+
+\subsection{Bayesian probability}\index{Bayesian probability}
+\label{subsec:bayesian_prob}
+
+\paragraph{Degree of belief}\index{degree of belief}
+
+Amount $F(x)$ that we are willing to bet that $x$ will occur.
+
+Knowing that if we win, we will get a fixed amount $k$.
+\marginnote{This is called \mono{coherent bet}\index{coherent bet}.}
+
+\begin{equation}
+	\to P(x) = \frac{F(x)}{k}
+\end{equation}
+
+\begin{equation}
+	\to \left\{
+	\begin{array}{rcl}
+		P(x) = 0 & & {\textrm{if we are sure } x \textrm{ will not happen,}}\\
+		P(x) = 1 & & {\textrm{if we are sure } x \textrm{ will happen,}}\\
+		0 < P(x) < 1 & & {\textrm{otherwise.}}
+	\end{array} \right.
+\end{equation}
+
+\begin{equation}\label{eq:norm_cond}
+	\sum_{i} P(n_{i}) = 1
+\end{equation}
+
+\begin{itemize}
+	\item It is a property of the system to be observed, as well as the observer.
+	\item It depends on the knowledge of the observer, and will change if the knowledge of the observer improves.
+	\item Can be applied to non-repeatable phenomenon.
+		\marginnote{Italy winning the next world cup; 
+		
+		me getting bold;
+		
+		or the aliens to have colonized the Earth in prehistoric times.}
+	\item Can be applied to the true value of a physics theory!
+\end{itemize}
+
+\subsection{Applicability of frequentist and Bayesian probability}\index{probability!applicability}
+\label{subsec:app_prob}
+
+\newthought{Based on these definitions}, we can immediately make a decision on which type of probability to use depending on the situation, i.e. depending on the question that we want to address. This is particularly important is we consider the fact that the physical parameter of a theory are fixed by Nature, but unknown to us.
+
+For example, we can ask the following types of question:
+
+\begin{itemize}[$\to$] 
+	\item Based on the result of a measurement, what is the true value of a parameter of the theory?
+	\item Based on the result of a measurement, what is the interval that contains the true (unknown) value of a given parameter with a given amount of probability?
+	\item Is my parameterization of the measured data good enough? Or does it indicate the presence of some “new physics”?
+	\item Supposing I want to compare two alternative models based on some experimental data, which of the models describes better the data?
+	\item Based on the results of previous experiments, what is the expected outcome of a future experiment measuring the same quantity, or a quantity connected to it?
+\end{itemize}
