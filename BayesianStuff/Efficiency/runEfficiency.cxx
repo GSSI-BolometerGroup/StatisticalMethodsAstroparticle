@@ -101,6 +101,7 @@ int main()
     leg->Draw("same");
     
     can->SaveAs("Efficiency.jpg");
+    can->SaveAs("Efficiency.pdf");
     app->Run(kTRUE);
 
     // close log file

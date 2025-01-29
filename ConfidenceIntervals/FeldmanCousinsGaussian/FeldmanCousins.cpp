@@ -242,7 +242,8 @@ int main()
     can->cd(6);
     toycoverage->Draw();
 
-    can->SaveAs("FeldmanCousins.jpg");
+    can->SaveAs("FeldmanCousinsGaussian.jpg");
+    can->SaveAs("FeldmanCousinsGaussian.pdf");
 	
     app->Run();
         

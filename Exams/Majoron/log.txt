@@ -1,0 +1,57 @@
+ +------------------------------------------------------+
+ |                                                      |
+ | BAT version 1.0.0                                    |
+ | Copyright (C) 2007-2018, the BAT core developer team |
+ | All rights reserved.                                 |
+ |                                                      |
+ | For the licensing terms see doc/COPYING              |
+ | For documentation see http://mpp.mpg.de/bat          |
+ | Please cite: DOI 10.1016/j.cpc.2009.06.026           |
+ |              http://arxiv.org/abs/0808.2552          |
+ |                                                      |
+ +------------------------------------------------------+
+Summary : Opening logfile log.txt
+Summary : Test model created
+Summary : Marginalize using Metropolis
+Summary : Pre-run Metropolis MCMC for model "Majoron" ...
+Summary :  --> Perform MCMC pre-run with 4 chains, each with maximum 100000 iterations
+Detail  :      * Efficiency status: Efficiencies not within predefined range after 500 iterations. Efficiency of 
+Detail  :          chain 1 is above 35 % (35 %). Scale increased to 4.248
+Detail  :      * Convergence status: Set of 4 Markov chains did not converge after 500 iterations.
+Detail  :        - Parameter :  R-Value
+Detail  :          B :  1.018
+Detail  :          S :  1.137 <-- Greater than threshold
+Detail  :      * Efficiency status: Efficiencies not within predefined range after 1000 iterations. Efficiency of 
+Detail  :          chain 1 is above 35 % (38 %). Scale increased to 6.372
+Detail  :      * Efficiency status: Efficiencies not within predefined range after 1500 iterations. Efficiency of 
+Detail  :          chain 0 is above 35 % (39 %). Scale increased to 4.248
+Detail  :          chain 3 is above 35 % (47 %). Scale increased to 4.248
+Detail  :      * Efficiency status: Efficiencies not within predefined range after 2000 iterations. Efficiency of 
+Detail  :          chain 2 is above 35 % (46 %). Scale increased to 4.248
+Detail  :          chain 3 is above 35 % (47 %). Scale increased to 6.372
+Detail  :      * Efficiency status: Efficiencies not within predefined range after 2500 iterations. Efficiency of 
+Detail  :          chain 0 is above 35 % (41 %). Scale increased to 6.372
+Detail  :          chain 2 is above 35 % (43 %). Scale increased to 6.372
+Detail  :      * Efficiency status: Efficiencies not within predefined range after 3000 iterations. Efficiency of 
+Detail  :          chain 2 is above 35 % (35 %). Scale increased to 9.559
+Detail  :          chain 3 is above 35 % (37 %). Scale increased to 9.559
+Detail  :      * Efficiency status: Efficiencies not within predefined range after 3500 iterations. Efficiency of 
+Detail  :          chain 0 is above 35 % (58 %). Scale increased to 9.559
+Detail  :          chain 1 is above 35 % (50 %). Scale increased to 9.559
+Detail  :          chain 3 is above 35 % (47 %). Scale increased to 14.34
+Detail  :      * Efficiency status: Efficiencies not within predefined range after 4000 iterations. Efficiency of 
+Detail  :          chain 0 is above 35 % (37 %). Scale increased to 14.34
+Detail  :          chain 1 is above 35 % (40 %). Scale increased to 14.34
+Summary :  --> Set of 4 Markov chains converged within 4500 iterations, and all scales are adjusted.
+Summary :  --> 8 updates to multivariate proposal function's covariances were made.
+Detail  :  --> Scale factors and efficiencies (measured in last 500 iterations):
+Detail  :        - Chain : Scale factor    Efficiency
+Detail  :              0 :        14.34        21.5 %
+Detail  :              1 :        14.34        25.4 %
+Detail  :              2 :        9.559        20.6 %
+Detail  :              3 :        14.34        26.1 %
+Summary : Run Metropolis MCMC for model "Majoron" ...
+Summary :  --> Perform MCMC run with 4 chains, each with 100000 iterations.
+Detail  :  --> iteration number  10000 ( 10 %)
+Detail  :  --> iteration number  20000 ( 20 %)
+Detail  :  --> iteration number  30000 ( 30 %)

@@ -230,6 +230,12 @@ int main()
     can3->SaveAs("LikelihoodVsChi2_3.jpg");
     can4->SaveAs("LikelihoodVsChi2_4.jpg");
     can5->SaveAs("LikelihoodVsChi2_5.jpg");
+
+    can1->SaveAs("LikelihoodVsChi2_1.pdf");
+    can2->SaveAs("LikelihoodVsChi2_2.pdf");
+    can3->SaveAs("LikelihoodVsChi2_3.pdf");
+    can4->SaveAs("LikelihoodVsChi2_4.pdf");
+    can5->SaveAs("LikelihoodVsChi2_5.pdf");
     
     app->Run(kTRUE);
     

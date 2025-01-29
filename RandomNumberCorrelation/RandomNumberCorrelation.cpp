@@ -146,6 +146,7 @@ int main()
     mcmc_diff_accepted->Draw();
 
     can->SaveAs("RandomNumberCorrelation.jpg");
+    can->SaveAs("RandomNumberCorrelation.pdf");
     
     app->Run(kTRUE);
     return 0;

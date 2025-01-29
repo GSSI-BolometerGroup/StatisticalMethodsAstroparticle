@@ -122,6 +122,7 @@ int main()
     for( long unsigned int i=1; i<histo.size(); i++ )
 	histo[i]->Draw("same");
     can->SaveAs("Binomial.jpg");
+    can->SaveAs("Binomial.pdf");
     app->Run(kTRUE);
     
     return 0;

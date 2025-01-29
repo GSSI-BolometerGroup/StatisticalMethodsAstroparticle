@@ -164,6 +164,11 @@ int main()
     TApplication* app = new TApplication( "app", NULL, 0 );
     TCanvas* can = new TCanvas( "can", "can", 2400, 900 );
     can->Divide(3,1);
+    for( int p=1; p<=3; p++ )
+	{
+	    can->GetPad(p)->SetRightMargin(0.01);
+	    can->GetPad(p)->SetLeftMargin(0.12);
+	}
     can->cd(1);
     posterior->Draw();
     central->Draw("same");
@@ -181,6 +186,7 @@ int main()
     posterior->Draw("AXIS SAME");
 
     can->SaveAs("OrderingRules.jpg");
+    can->SaveAs("OrderingRules.pdf");
     app->Run();
     
     return 0;
