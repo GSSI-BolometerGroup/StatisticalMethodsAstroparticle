@@ -6,3 +6,25 @@
 
 \subsection{Consistency}\index{consistency}
 \label{subsec:prop_of_estimator_consistency}
+
+\subsection{Efficiency}\index{efficiency}
+\label{subsec:prop_of_estimator_efficiency} Minimum variance and Cramér–Rao inequality
+
+Neglecting the bias, the smaller the variance of the estimatorm, the more certain we are that the estimate is near the true value of the parameter. 
+
+One can prove that the variance $V(\hat{\theta})$ of any consistent estimation is subject to a lower bound given by:
+\begin{align}
+    V(\hat{\theta}) \geq \underset{V_{CR}(\hat{\theta})}{\underbrace{\dfrac{\Big ( 1 + \dfrac{\partial b(\hat{\theta})}{\partial \theta} \Big )}{E \Big [ \Big ( \dfrac{\partial \ln{\mathcal{L}(\vec{x}|\theta)}}{\partial \theta} \Big )^2 \Big]}}} \genfrac{}{}{3pt}{}{\leftarrow {\text{Bias of estimator}}}{\leftarrow \text{Fisher information}} 
+\end{align}
+
+We define the efficiency of the estimator as: $\epsilon(\hat{\theta}) = \dfrac{V_{CR}(\hat\theta)}{V(\hat{\theta})}$. 
+Any consistent estimator $\hat{\theta}$ has an efficiency whihc is at most equal to $1$.
+
+\section{Properites of maximum likelihood}
+\label{sec:point_estimation_prop_of_max_likelihood}
+
+We need to distinguish between 
+
+\to asymptotic properties \to hold for sufficiently large $n$
+
+

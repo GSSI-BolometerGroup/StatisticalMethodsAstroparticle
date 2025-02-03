@@ -5,12 +5,44 @@
 \label{sec:def_of_prob}
 
 \subsection{Mathematical probability}\index{mathematical probability}
+Let $\Omega$ be the net of all elementary events $x_i$, which are mutually exclusive. We define the probability of the occurance of events $x$ to obey the Kolmogorov axioms:
 
-\lipsum[6-7]
+% \begin{align}
+%    \to P(x_i) \geq 0 \quad \forall i \\
+%  \to P(x_i \cup x_j) = P(x_i) + P(x_j) \\
+%   \to   \sum\limits_i P(x_i) = 1 
+% \end{align}
+\begin{itemize}
+    \item $P(x_i) \geq 0 \quad \forall i$ 
+    \item $P(x_i \cup x_j) = P(x_i) + P(x_j)$
+    \item $\sum\limits_i P(x_i) = 1 $
+\end{itemize}
+
+This is an abstract definition and holds for any quantity that satisfies the axioms.
+% \lipsum[6-7]
 
 \subsection{Frequentist probability}\index{frequentist probability}
 
-\lipsum[7-8]
+Consider an experiment in which a series of $N$ events is observed. Suppose $K$ events are of type $X$. The frequentist probability for any single event to be of type $X$ in the empirical limit of the ratio: 
+
+\begin{align}
+    P(X) = \lim_{N\to\infty} \dfrac{K}{N}
+\end{align}
+
+In other words: 
+\begin{align}
+   \to P(X) = \lim_{N\to\infty} \dfrac{\text{Number of favourable cases}}{\text{Number of possible cases}}
+\end{align}
+
+\begin{itemize}
+    \item In principle, $P(X)$ can only be known for $N=\infty$. But often it can be computed analytically or numerically to grate precision. 
+    \item This can only be applied to repeatable experiments. 
+    
+    \marginnote{So, we cannot predict if Italy will win the next World Cup.}
+    
+    \item Repeatability, in principle, is impossible under the same exact conditions. However, it is the job of the physicist to ensure that all relevant conditions are repeatable, or to make corrections if required. 
+\end{itemize}
+
 
 \subsection{Bayesian probability}\index{Bayesian probability}
 \label{subsec:bayesian_prob}

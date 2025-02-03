@@ -107,17 +107,45 @@ An example plot is (Figure~\ref{fig:CDF_PDF_Gaussian}):
 \subsection{Marginal distribution}\index{marginal distribution}
 \label{subsec:marginal_distr}
 
-\lipsum[8-9]
+Take $\vec{x} = x_1, x_2, ..., x_n$ with PDF $f(\vec{x})$.
+
+The marginal distribution for $x_i$ is:
+\begin{align}
+    f(x_i) = \int f(\vec{x}) dx_1 \cdots dx_{i-1} dx_{n} \quad \implies \text{dim} \ 1 
+\end{align}
+
+We can also define the marginal distribution for a subset of variables: 
+\begin{align}
+    f(x_{i < k}) = \int f(\vec{x}) dx_{k+1} \cdots dx_{n}
+\end{align}
 
 \subsection{Independent variable}\index{independent variable}
 \label{subsec:independent_var}
+Recall that two events $A$ and $B$ are independent if 
+\begin{align}
+    P(A|B) = P(A)
+\end{align}
 
-\lipsum[9-10]
+or, in other words, if $P(A \cap B) = P(A)P(B)$.\\
+
+Correspondingly, two variables $x$ and $y$ are independent if 
+\begin{align}
+    f(x,y) = f_x(x) f_y(y)
+\end{align}
+So, if they can be factorized in terms that depend exclusively on $x$ or $y$.
+% \lipsum[9-10]
 
 \subsection{Conditional distribution}\index{conditional distribution}
 \label{subsec:cond_distr}
+Take a two-dimensional PDF $f(x,y)$ and a fixed value $x_0$ of variable $x$.
+The conditional distribution of $y$ given $x_0$ is:
+\begin{align}
+% \cdot \underset{\to 1}{\underbrace{\frac{n(n - 1) \cdots (n - k + 1)}{n^{k}}}}  
+    f(y|x_0) = \underset{\text{normalization term}}{\underbrace{\frac{f(x_0|y)}{\int f(x_0|y')dy'}}}    
+\end{align}     
+This is consistent with $P(B|A) = \dfrac{P(A\cap B}{P(A)}$.
 
-\lipsum[10-11]
+If we take $A = x_0 < \hat{x} < x_0 + \delta x$ and $B = y < \hat{y} < y+\delta y$,
 
 \subsection{Change of variable}\index{change of variable}
 \label{subsec:change_of_var}
