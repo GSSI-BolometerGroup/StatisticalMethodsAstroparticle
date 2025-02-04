@@ -20,11 +20,185 @@ One can prove that the variance $V(\hat{\theta})$ of any consistent estimation i
 We define the efficiency of the estimator as: $\epsilon(\hat{\theta}) = \dfrac{V_{CR}(\hat\theta)}{V(\hat{\theta})}$. 
 Any consistent estimator $\hat{\theta}$ has an efficiency whihc is at most equal to $1$.
 
-\section{Properites of maximum likelihood}
+\section{Properties of maximum likelihood}
 \label{sec:point_estimation_prop_of_max_likelihood}
 
-We need to distinguish between 
+\begin{itemize}[$\to$]
+    \item We need to distinguish between: 
+\begin{itemize}[$\to$]
+    \item asymptotic properties $\rightarrow$ hold for sufficiently large $n$
+    \item finite sample properties $\rightarrow$ hold for any $n$
+\end{itemize}
+    \item maximum $\mathcal{L}$ estimators are consistent: asymptotically, one of the maxima will go arbitrarily close to the true value 
+    \item max $\mathcal{L}$ estimators might be biased, but $\lim \limits_{n \to \infty} b(\mathcal{L})=0$
+    \item max $\mathcal{L}$ estimators are asymptotically normally distributed with minimum variance, and their variance is given by the Cramér–Rao lower bound
+    \begin{itemize}[$\to$]
+        \item Therefore, the efficiency of max $\mathcal{L}$ estimators tends asymptotically to $1$
+        \item max $\mathcal{L}$ estimators have asymptotically the lowest variance of any consistent estimator
+    \end{itemize}
+    \item max $\mathcal{L}$ estimators are invariant under reparameterization. If we reparameterize $\mathcal{L}$, with $\tau(\theta)$, we find $\hat{\tau}=\tau(\hat{\theta})$
+    \item For finite $n$, $\mathcal{L}$ might have multiple maxima, but we would not know which is the closest to the true one
+    \begin{itemize}[$\to$]
+        \item However, in my experience, this is a rare case that happens only when we have highly (anti)correlated parameters.
+    \end{itemize}
+\end{itemize}
 
-\to asymptotic properties \to hold for sufficiently large $n$
+\subsection{Extended likelihood} \index{extended likelihood}
+\label{subsec:point_estimation_ext_likelihood}
+Suppose we perform $n$ measurements of a random variable $x$ with PDF $f(x|\theta)$. The number of observations $n$ is itself a random variable, with distribution $P(n|\theta)$.
+The likelihood needs to be extended to include $P(n|\theta)$: 
+\begin{align}
+    \mathcal{L} = P(n|\theta) \prod \limits_{i=1}^{n} f(x_i|\theta)
+\end{align}
 
+$\to$ In most cases, $P(n|\theta)$ is a Poisson distribution whose average $\lambda$ depends on the parameter(s) $\theta$: 
+\begin{align}
+    \mathcal{L} = \dfrac{e^{-\lambda} \lambda^{n}}{n!} \prod \limits_{i=1}^{n} f(x_i|\theta) \quad \text{with} \: \lambda=\lambda(\theta)
+\end{align}
 
+\subsection{Binned likelihood} \index{binned likelihood}
+\label{subsec:point_estimation_binned_likelihood}
+Suppose the number of measurements $n$ is so large that computing $\sum \limits_{i=1}^{n} \ln f(x_i|\theta)$ would take too long. 
+
+We can simplify the problem (from a computational point of view) by binning the data $x$ in $m<<n$ bins. 
+If the data are vectors $\vec{x}$, we can do multidimensional bins. 
+
+The likelihood will be a multinomial, times an extended term for the total number of measurements $n$: 
+\begin{align}
+    \mathcal{L} = P(n|\theta) \Big [ \prod \limits_{i=1}^m \dfrac{p_i^{k_i}}{k_i!}\Big] n! 
+\end{align}
+
+Here, 
+\begin{itemize}[$\to$]
+    \item $i$ is the bin index (not the event index!)
+    \item $k_i$ is the number of events in bin $i$
+    \item $p_i$ is the probability associated to bin $i$
+    \item $\sum k_i = n$
+\end{itemize}
+
+$\to$ $P(n|\theta)$ is a Poisson distribution with expectation value $\lambda$: 
+\begin{align}
+    \lambda &= \sum \limits_{i=1}^m \lambda_i \\
+    p_i &= \dfrac{\lambda_i}{\lambda} \\
+    \mathcal{L} &= \dfrac{e^{-\lambda} \lambda^n}{n!} n! \prod \limits_{i=1}^m \Big (\dfrac{\lambda_i}{\lambda} \Big )^{k_i} \cdot \dfrac{1}{k_i!} = e^{-\lambda} \lambda^n \prod \limits_{i=1}^m \dfrac{\lambda_i^{k_i}}{\lambda^{k_i}k_i!} \\
+    \mathcal{L} &= \prod \limits_{i=1}^m \dfrac{e^{-\lambda_i} \lambda_i ^{k_i}}{k_i!}
+\end{align}
+
+$\implies$ The binned version of an extended $\mathcal{L}$ with a Poisson distribution for $n$, in the product of a Poisson term for each bin! \marginnote{Note that this derivation is different than the one reported in literature, e.g. in the Cowan.}
+
+\newthought{Notice that} 
+\begin{itemize}[$\to$]
+    \item If the parameters $\vec{\theta}$ are known, this is truly a $\chi^2$ distribution.
+    \item If $\vec{\theta}$ is not known, that combination of $\vec{\theta}$ values that minimizes $\sum \dfrac{(y_i - y())}{\sigma^2}$ \todo{bracket text?} is a $\chi^2$ distribution only if all measurements $y_i$ are uncorrelated. 
+    \item If the individual measurements $y_i$ are not normally distributed, or if they are correlated, or if $y(x,\vec{\theta)}$ does not perfectly describe the data, the least-squares method can still be used for estimating parameters, but it will not behave as a $\chi^2$. \marginnote{This can actually be used to test the goodness of fit!}
+\end{itemize}
+\todo{plots missing from point 9}
+
+\section{Numerical and historical considerations}
+\label{sec:numerical_and_historical_considerations}
+Often times, we deal with histograms rather than scatter plots. 
+
+In the past, the computational power was not enough to numerically maximize $\mathcal{L}$, especially when dealing with factorials. 
+
+On the other hand, it is much easier to minimize the sum of squares. This has led to the application of the least-squares methods to the fit of histograms.
+
+\section{Least squares method for fitting histograms} \label{sec:least_squares_fitting_histograms}
+Assume we have a set of measurements $x_i$ following a PDF $f(x_i|\vec{\theta})$. Assume we bin the data, and that every bin has a number of entries $k_i$ large enough so that the corresponding Poisson distribution can be approximated by a Gaussian with mean given by the expected number of counts in that bin:
+\begin{align}
+    \lambda &= \text{expected number of total counts}\\
+    \lambda_i &= \int \limits_{\delta x_i} \lambda f(x_i|\vec{\theta}) dx
+\end{align}
+
+The likelihood reads: 
+\begin{align}
+    \mathcal{L} = \prod \limits_{\text{bin} \ i =1}^m \dfrac{1}{\sqrt{2\pi} \sigma_i} \exp\Big[{\dfrac{-(k_i - \lambda_i(\vec{\theta}))}{2 \sigma_i^2}}\Big]
+\end{align}
+
+Taking the logarithm, 
+\begin{align}
+    -2\ln \mathcal{L} = \sum \limits_{i=1}^m \ln(2\pi \sigma_i^2) + \sum \limits_{i=1}^m \dfrac{(k_i - \lambda_i(\vec{\theta}))^2}{\sigma_i^2}
+\end{align}
+The problem is, we do not know what is $\sigma_i$ is.
+
+We can make some considerations: 
+\begin{itemize}[$\to$]
+    \item $\sigma_i^2$ is the variance of the number of counts (measured or expected) in bin $i$. If this is large, it is equal to the number of counts. But the logarithm of a large number of small and varies very slowly, so we can neglect the term $\sum \ln{(2\pi\sigma_i^2)}$.
+\end{itemize}
+
+\section{Point estimation in practice} \label{sec:point_estimation_in_practice}
+So, how do we minimize the $\chi^2$ or maximize $\mathcal{L}$?
+
+Every programming language has a tool (or many tools) for performing $\chi^2$ fits or $\mathcal{L}$ fits with Poisson models. The issue arises when we want to tweak the function that we want to minimize for precision or economy (speed) reasons. 
+
+Possible tools are: 
+\begin{itemize}[$\to$]
+    \item \href{https://root.cern/}{\texttt{ROOT} (C++ and Python)}
+    \begin{itemize}[$\to$]
+        \item Available $\chi^2$ fit for scatter plots (called \texttt{TGraphErrors})
+        \item Default $\chi_N^2$ for histograms
+        \item $\chi_P^2$ fit with option "P"
+        \item $\mathcal{L}$ fit with option "L"
+        \item Custom $\mathcal{L}$ possible, but complicated
+    \end{itemize}
+    \item \href{https://github.com/bat/bat}{\texttt{BAT} (C++ and \texttt{ROOT})}
+    \begin{itemize}[$\to$]
+        \item It is actually a framework for Bayesian fits, but it can be easily forced to perform frequentist ones. 
+        \item Nice feature. The user must implement the $\mathcal{L}$. Then one can use model $\rightarrow$ FindMode(). To call the underlying \texttt{ROOT} fitter (Minuit) using the custom $\mathcal{L}$.
+    \end{itemize}
+    \item \texttt{numpy+scipy.optimize} (Python)
+    \begin{itemize}[$\to$]
+        \item easy to define custom $\mathcal{L}$ which is passed to "minimize"
+    \end{itemize}
+    \item \texttt{julia}
+    \begin{itemize}[$\to$]
+        \item minimizer available, e.g., from "Optim" package
+        \item can minimize custom $\mathcal{L}$
+    \end{itemize}
+\end{itemize}
+
+\section{Efficiency-corrected likelihood} \label{efficiency_corrected_likelihood}
+Suppose each "true" event has an efficiency $\epsilon(\vec{x})$ to be detected. $\epsilon$ depends on the parameters $\vec{\theta})$ directly, if we fit some efficiency curve, or indirectly, i.e., through $\vec{x}$.
+
+The PDF of detected events $\vec{x}$ will be: $\epsilon(\vec{x}|\vec{\theta})f(\vec{x}|\vec{\theta})$. 
+
+The likelihood will be:
+\begin{align}
+    \mathcal{L} = \dfrac{e^{-\lambda}\lambda^n}{n!} \prod \limits_i \epsilon(\vec{x}|\vec{\theta})f(\vec{x}|\vec{\theta})
+\end{align}
+
+\newthought{Example}: Looking for peak near threshold
+Suppose we have an x-ray detector with the following properties: 
+
+Energy resolution: $\sigma=1$keV
+
+Trigger efficiency: $\epsilon(E,t,\sigma_t) = \dfrac{p}{2} \Big[ 1 + \erf\Big(\dfrac{E-t}{\sigma_t}\Big)\Big]$ with $p=0.9$, $t=3$keV and $\sigma_t=1$keV.
+
+Suppose we have an experimental background: 
+\begin{align}
+    f_b(E|\lambda) = \lambda \exp(-\lambda E) \quad \text{with} \; \lambda=3\text{keV}
+\end{align}
+Suppose we look for an x-ray signal peak at $5$keV:
+\begin{align}
+    f_s(E|\mu, \sigma) = \dfrac{1}{\sqrt{2\pi}\sigma^2} \exp\Big[-\dfrac{(E-\mu)^2}{2\sigma^2} \Big] \quad \text{with} \; \mu=5\text{keV and} \; \sigma=1\text{keV}
+\end{align}
+
+Our likelihood will be: 
+\begin{align}
+    \mathcal{L} &= {\dfrac{e^{-v}v^n}{n!} \prod \limits_{i=1}^n \dfrac{\dfrac{s}{s+b} \epsilon(E_i|t,\sigma_t) f_s(E_i|\mu,\sigma) + \dfrac{b}{s+b} f_b(E_i|\lambda)\epsilon(E_i|t,\sigma_t)}{\underset{\text{Does not depend on $E_i$}}{\underbrace{\int \Big [\dfrac{s}{s+b} \epsilon f_s + \dfrac{b}{s+b} \epsilon f_b \Big] dE}}}}  \quad \text{with} \; v=s+b \\
+    \mathcal{L} &\propto \dfrac{e^{-v}v^n}{n!} \prod \Big[\dfrac{s}{s+b} \epsilon f_s + \dfrac{b}{s+b} \epsilon f_b  \Big]
+\end{align}
+
+The likelihood for the efficiency measurement is: 
+\begin{align}
+    \mathcal{L}(\vec{k}(E)|p,\mu_\epsilon,\sigma_\epsilon) = \prod \limits_{i=1}^{n_k} \dfrac{n!}{k_i!(n-k_i)!} \epsilon(E_i)^{k_i} (1-\epsilon(E_i))^{n-k_i} \quad \text{with} \; n&=1000 \; \text{injected events} \nonumber \\ E_i&=1,2,\cdots,20\text{keV} \nonumber \\ n_k&=20\text{ energy points}
+\end{align}
+
+The likelihood for the physics data $\vec{E}$ is:
+\begin{align}
+    \mathcal{L}(\vec{E}|s,b,p) = \dfrac{e^{-\lambda}\lambda^{n_E}}{n_E!} \prod \limits_{i=1}^{n_E}\Big[ \dfrac{\epsilon(E)s}{\lambda} f_s(E_i) + \dfrac{\epsilon(E)b}{\lambda}f_b(E_i)\Big] \quad \text{with} \; \lambda&=\sum \limits_{i=1}^{n_E} \epsilon(E_i)(s+b) \nonumber \\ n_E &= \text{ number of detected events} \nonumber \\ s&= \text{ expected value for signal events} \nonumber \\ b&= \text{ expected value for background events}
+\end{align}
+
+The combined likelihood is: 
+\begin{align}
+    \mathcal{L}(\vec{k},\vec{E}|p, \mu_\epsilon, \sigma_\epsilon, s, b) = \mathcal{L}(\vec{k}|p,\mu_\epsilon,\sigma_\epsilon) \cdot \mathcal{L}(\vec{E}|s,b,p)
+\end{align}
