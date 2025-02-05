@@ -1,0 +1,196 @@
+\section{Goal \todo{what is goal} Confidence Interval} \label{sec:interval_estimation_goal_conf_interval}
+In interval estimation, we want to find the range $\theta_a \leq \theta \leq \theta_b$ which contains the true value $\theta_0$ with probability $\beta$. Such interval is called "confidence interval" with probability content $\beta$. Typically, we choose $\beta=68.3\%$ and call it $1$ standard deviation error. However, the $68\%$ interval corresponds to $\pm$ standard deviation only for a Gaussian distribution.
+
+Given an observation $x$ from a PDF $f(x|\theta)$, the probability content $\beta$ of the region $[a,b]$ in $x$-space is:
+\begin{align}
+    \beta = P(a \leq x \leq b) = \int \limits_a^b f(x|\theta) dx
+\end{align}
+If $f(x|\theta)$ and the parameter $\theta$ are known, one can always compute $\beta$ given $a$ and $b$.
+
+If the parameter $\theta$ is unknown, we need to find another variable $z=z(x,\theta)$, such that the PDF of $z$ is independent of $\theta$:
+\begin{align}
+    f(z|x,\theta) = f(z|x)
+\end{align}
+If this can be found, we can find the optimal range $[\theta_a, \theta_b]$ in $\theta$-space such that:
+\begin{align}
+    P(\theta_a < \theta < \theta_b) = \beta
+\end{align}
+
+This interval $[\theta_a, \theta_b]$ is called a "confidence interval".
+
+A method which yields such an interval $[\theta_a, \theta_b]$ is said to possess the property of "coverage".
+
+\newthought{Notice that} 
+\begin{itemize}[$\to$]
+    \item $\theta_0$ is an unknown constant 
+    \item $\theta_a$ and $\theta_b$ are functions of $x$, not of $\theta$
+\end{itemize}
+
+\subsection{Confidence intervals for the mean of a Gaussian} \label{conf_int_mean_of_gaussian}
+For any Gaussian, we can redefine $z=\dfrac{x-\mu}{\sigma}$, which is a standard-normal variable. 
+\begin{align}
+    f(z) = \dfrac{1}{\sqrt{2\pi}}\exp{\Big [ - \dfrac{z^2}{2}\Big]}
+\end{align}
+Estimating the interval $[c,d]$ so that $P(c\leq z \leq d) = \beta$ is equivalent to finding $[z_\alpha, z_{\alpha+\beta}]$.
+
+\todo{plot and table need to be inserted}
+
+\subsection{Confidence intervals for several parameters} \label{conf_int_several_param}
+Suppose we have an $n$-dimensional Gaussian:
+\begin{align}
+    f(\vec{x}|\vec{\theta}) = \dfrac{1}{(2\pi)^{\frac{n}{2}} \sqrt{|C|}} \exp \Big[- \frac{1}{2} (\vec{x}-\vec{\theta})^T C^{-1} (\vec{x} - \vec{\theta})\Big]
+\end{align}
+Each $x_i$ is normal, therefore $Q(\vec{x}, \vec{\theta}) = (\vec{x}-\vec{\theta})^T C^{-1} (\vec{x}-\vec{\theta})$ is a $\chi^2(n)$ distribution, and does not depend on $\vec{\theta}$.
+\begin{align}
+    Q(\vec{x}, \vec{\theta}) = Q(\vec{x})
+\end{align}
+
+\subsection{Second derivative matrix} \label{second_derivative_matrix}
+Assume $\vec{x}$ has an $n$-dimensional Gaussian PDF. 
+
+One can prove that the $n$-dim covariance matrix $C$ can be obtained from the inverse of the $2$nd order partial derivative matrix of $-\ln\mathcal{L}$:
+\begin{align}
+    C_{ij}^{-1} = - \dfrac{\partial \ln \mathcal{L}(\vec{x}|\vec{\theta})}{\partial \theta_i \partial \theta_j}
+\end{align}
+This covariance matrix gives an $n$-dim elliptic contour with the correct coverage only if the PDF is exactly Gaussian!
+
+This is the "standard" classical method used to compute uncertainties in common fitting algorithms, e.g., Migrad/\todo{what is this} of Minuit/\texttt{ROOT}.
+
+\subsection{Log-likelihood scan} \label{log_likelihood_scan}
+Another common method consists of taking a scan of $-2\ln\mathcal{L}$ around its minimum value, $-2\ln\mathcal{L}_{max}$.
+
+$\to$ For a Gaussian $1$-dim distribution:
+\begin{align}
+    \ln\mathcal{L}(x|\mu) &= \ln C - \dfrac{(\mu - x)^2}{2\sigma^2} \quad \implies \text{parabola in $\mu$} \\
+    \to -2 \ln \mathcal{L} &= -2 \ln \mathcal{L}_{max} + \dfrac{(\mu - x)^2}{\sigma^2}
+\end{align}
+The intercept at $-2 \ln \mathcal{L}_{max} = -2\ln \mathcal{L}_{max} + 1$ provides the $\pm1\sigma$ interval. 
+
+The intercept at $+4$ provides the $\pm2\sigma$, and so on. \todo{parabola needs to be added}
+
+\subsection{$\mathcal{L}$ scan in dim$>1$: Profile likelihood} \label{l_scan_profile_likelihood}
+For dim$>1$ we have: 
+\begin{align}
+    \ln \mathcal{L}_{\vec{\theta}}(\vec{x}|\vec{\theta}) &= \ln\mathcal{L}_{max} - \dfrac{1}{2} \chi^2_\beta(n) \\
+    \to -2 \ln \mathcal{L}(\vec{x}|\vec{\theta}) &= -2\ln\mathcal{L}_{max} + \chi^2_\beta(n)
+\end{align}
+In principle, we can compute the contours: 
+\todo{contours need to be added}
+
+\newthought{Notice that}
+\begin{itemize}[$\to$]
+    \item The inner contour is more nearly elliptical than the outer ones.
+    \item The coverage is improved with respect to the Gaussian approximation. 
+    \item This is still an approximation valid for large $n$.
+\end{itemize}
+
+\subsection{Variance of transformed variables, aka Error propagation} \label{error_prop}
+Suppose we have a variable $\vec{x}$ with a given PDF and mean $\vec{\mu}$ and variance $V(\vec{x})$.
+
+Suppose we want to compute the variance of the transformed variable $y=y(\vec{x})$, and that the function can be expanded in Taylor series around $\vec{\mu}$:
+\begin{align}
+    y(\vec{x}) = y(\vec{\mu}) + \sum \limits_i (x_i - \mu_i) \dfrac{\partial y}{\partial \mu_i} + \cdots
+\end{align}
+The expectation value of $y$ is: $\overline{y} = y(\vec{\mu})$
+
+The variance is: 
+\begin{align}
+    V(y) &= E[y-E(y)]^2 \\
+    &\approx E\Big [\sum\limits_i (x_i - \mu_i) \dfrac{\partial y}{\partial x_i}\Big]^2 \\
+    &\approx \sum\limits_i \sum\limits_j \dfrac{\partial y}{\partial x_i} \dfrac{\partial y}{\partial x_j} E[(x_i - \mu_i)(x_j - \mu_j)] \\
+    &\approx \sum\limits_{i,j} \dfrac{\partial y}{\partial x_i} \dfrac{\partial y}{\partial x_j} \mathrm{Cov}(x_i, x_j)
+\end{align}
+
+\subsection{Confidence intervals for any PDF: Ordering rules} \label{confidence_int_ordering_rules}
+The approximation of $-2\ln\mathcal{L}$ with a Gaussian or its excursion around its minimum guarantee an exact coverage only for a small set of cases, and in particular, for large $n$.
+
+Here, we will see a general approach. 
+
+Suppose we have a variable $x$ with PDF $f(x|\theta)$. In general, $f$ is not symmetric, so we need to decide how to compute an interval corresponding to some predefined probability content $\beta$. 
+
+\begin{itemize}[$\to$]
+    \item Central interval
+    \begin{align}
+    [x_L(\theta), x_U(\theta)] = [\overline{x}(\theta)-\delta, \overline{x}(\theta + \delta)]
+\end{align}
+Here, $\overline{x}$ could be the mean or the mode.  \todo{need to add plots}
+\item Equal areas 
+\begin{align}
+    \int \limits_{-\infty}^{x_L} f(x|\theta) dx = \int \limits_{x_U}^{\infty}f(x|\theta) dx = \dfrac{1-\beta}{2}
+\end{align} 
+\end{itemize}
+
+\subsection{Neyman confidence belt}
+Take a variable $x$ with PDF $f(x|\theta)$ and $\theta$ unknown. Suppose $t(x)$ is some function of the data. We can write: 
+\begin{align}
+    \beta &= P(t_1 \leq t \leq t_2) = P (t_1(\theta) \leq t \leq t_2(\theta)) \\
+    &= \int\limits_{t_1}^{t_2} f(t|\theta) dt 
+\end{align}
+Assume that we have a way to determine $t_1$ and $t_2$ for each value of $\theta$. Such values form two curves in the $(t,\theta)$ space. \todo{add plot}
+
+The space between the curves is called the "Neyman confidence belt".
+
+From this belt, given a specific measured value $t_0$, we want to extract an interval on the parameter $\theta$. 
+
+Suppose $\theta_0$ is the true, unknown value of $\theta$. If we repeat the measurement many times, a fraction $\beta$ of the measurements will fall in $[t_1(\theta_0), t_2(\theta_0)]$ by definition. \todo{Add plot}
+
+The corresponding belt would be: \todo{add plot}
+
+For some values of $\mu$, e.g., $\mu=2.5$, we have a coverage of $85\%$ only!
+
+\newthought{Notice that} 
+\begin{itemize}[$\to$]
+    \item The coverage is a property of the method, not of a particular interval. 
+    \item The flip-flopping issue arises from the fact that our ordering rule depends on the outcome of the measurement. 
+    \marginnote{Feldman and Cousins showed that this should not be done!}
+\end{itemize}
+
+Example: flip-flopping
+
+Examples: \begin{itemize}[$\to$]
+    \item FC belt for Gaussian 
+    \item FC belt for electron neutron mass
+\end{itemize}
+
+\subsection{FC belt calculation for Gaussian} 
+Recall the flip-flopping case, where we had $x$ with a PDF: 
+\begin{align}
+    f(x|\mu) = \dfrac{1}{\sqrt{2\pi}} \exp \Big[- \dfrac{(x-\mu)^2}{2}\Big]
+\end{align}
+The value $\hat{\mu}$ that maximizes $f(x|\mu)$ given some measured $x$ is: 
+\begin{align}
+    \hat{\mu}(x) = \max\{x,0\}
+\end{align}
+The PDF for $x$, using the $\max \mathcal{L}$ estimate for $\mu$ is: 
+\begin{align}
+    f(x|\hat{\mu}(x)) = \left\{
+    \begin{array}{lcl}
+       \dfrac{1}{\sqrt{2\pi}}  & & {\textrm{if } x \geq 0} \\
+        \dfrac{1}{\sqrt{2\pi}} \exp\Big[-\dfrac{x^2}{2}\Big] & & {\textrm{if } x < 0} 
+    \end{array} \right.
+\end{align}
+The likelihood ratio becomes: 
+\begin{align}
+    \lambda(x|\mu) = \dfrac{f(x|mu)}{f(x|\hat{\mu}(x))} = \left\{
+    \begin{array}{lcl}
+         \exp\Big[ -\dfrac{(x-\mu)^2}{2}\Big]& & {\textrm{if } x \geq 0}  \\
+         \exp\Big[x\mu - \dfrac{\mu^2}{2}\Big]& & {\textrm{if } x < 0}
+    \end{array} \right.
+\end{align}
+At this point, we can find the interval $[\mu_1, \mu_2]$ numerically for any value of $\mu$. The result will be: 
+\todo
+
+If $(1)$ and $(2)$ give different results:
+\begin{itemize}[$\to$]
+    \item If the number of parameters is small ($\approx2$), Feldman-Cousins is easy to implement. 
+    \item If the number of parameters os $\geq 3$, FC might become very complicated or CPU intensive, but in these situations, typically the profile-$\mathcal{L}$ method provides good coverage. 
+\end{itemize}
+
+\subsection{Coverage calculation}
+In any case, one should make sure the method provides the desired coverage! 
+
+This can be done as follows: 
+\begin{itemize}[$\to$]
+    \item Assume values for each parameter, generate $\geq 10^4$ toy-MC experiments, count how many times the confidence interval covers the true value of each parameter. 
+    \item Repeat for different values of the parameters.
+\end{itemize}
