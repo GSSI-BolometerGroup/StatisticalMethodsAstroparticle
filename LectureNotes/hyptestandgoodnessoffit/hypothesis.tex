@@ -18,4 +18,61 @@ Goals:
         \item $H_0$ and $H_1$ are a complete set $\implies \: P(H_0)+P(H_1) = 1$ (Bayesian) 
     \end{itemize}
     \item Test of hypothesis: Use data to verify/disprove $H_0$ or $H_1$
+    \item Take $H_0$ as a given hypothesis
+      \begin{itemize}
+          \item $\overline{H_0}$ as all other (unspecified) possible hypotheses
+      \end{itemize}
+      Goodness of fit $=$ use data to verify/disprove $H_0$ vs $\overline{H_0}$
+\end{itemize}
+
+\subsection{Test statistic}
+Let $\vec{x}$ be some measured data distributed as: 
+\begin{itemize}[$\to$]
+  \item $f_0(\vec{x}|H_0)$ if $H_0$ is true 
+  \item $f_1(\vec{x}|H_1)$ if $H_1$ is true
+\end{itemize}
+
+Let $H_0$ and $H_1$ be a complete set of alternative hypotheses.
+
+We want to develop a method to determine whether the observed data agree better with $H_0$ or $H_1$.
+
+Decide some cut on $\dfrac{A_2}{A_1}$. \todo{add plot}
+
+Measure the "physics data" (whatever they are) and use the previous method to distinguish $\alpha$ from $\beta$. 
+
+\subsection{Selection, misidentification and significance}
+\begin{itemize}
+  \item Selection efficiency $(\epsilon_s=1-\beta)$: Fraction of signal events that are expected to be correctly identified
+  \item Misidentification probability $(\epsilon_b = \alpha = \text{ significance})$: Fraction of background events that are expected to be erroneously identified as signal 
+  \item Critical region $(w)$: Region where we expect the signal
+  \item Acceptance region $(W-w)$: Region where we expect the background, region where we accept $H_0$ as true
+\end{itemize}
+     
+In general, the misidentification probability is also called "significance level". When we design a hypothesis test, we used to specify the desired level of significance $\alpha$, i.e., to which extent we are willing to accept the misidentification of data induced by $H_0$ with data induced by $H_1$:
+\begin{align}
+  P(t(\vec{x}) \in w | H_0) = \alpha
+\end{align}
+
+Given a predefined value of $\alpha$, we want to find the region $w$ which maximizes $(1-\beta)$.
+
+We can rewrite: 
+\begin{align}
+  1 - \beta &= \int \limits_{w} \dfrac{f_1(\vec{x}|H_1)}{f_0(\vec{x}|H_0)} f_0(\vec{x}|H_0) d\vec{x} \\
+            &= E_w \Big[\dfrac{f_1(\vec{x}| H_1)}{f_0(\vec{x}|H_0)}\Big]
+\end{align}
+
+\todo{double vector arrow?} 
+
+The best critical region $w$ is the one that satisfies: 
+\begin{align}
+\lambda(\vec{x}) = \dfrac{f_1(\vec{x}|H_1)}{f_0(\vec{x}|H_0)} \geq k_\alpha \quad \text{with $k_\alpha$ chosen so that the} \nonumber \\ \text{desired significance is achieved}
+\end{align}
+
+This is the Neyman-Pearson lemma. 
+
+\newthought{Notice that}
+\begin{itemize}[$\to$]
+  \item The NP lemma is valid only if the PDFs are known (including the values of their parameters).
+  \item The NP lemma provides the most powerful test. If we do not know the parameter values, the power of any test will be at most be that of the NP.
+
 \end{itemize}
