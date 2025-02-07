@@ -268,4 +268,15 @@ We have that $\mathcal{L}_{max}$ distributions are not well separated under diff
 
 $\to$ Do \underline{not} use $\mathcal{L}_{max}$ as a test-statistic for \todo{not legible} 
 
-\subsection{Smirnov-Gamer-}
+\subsection{Smirnov-Cramér–von Mises test}
+Use as test statistics:
+\begin{align}
+  W^2 = \int \limits_{-\infty}^{+\infty} [F_n(x)-F(x)]^2 f(x) 
+\end{align}
+
+$\to$ Instead of using the single point where the difference is largest, we use the integral of the required difference. 
+
+\subsection{Anderson-Darling test}
+\begin{align}
+  A^2 = n \int \limits_{-\infty}^{+\infty} \dfrac{(F_n(x) - F(x))^2}{F(x)(1 - F(x))} dF(x) \quad \to\text{Put more weights on the tails of the distribution}
+\end{align}
