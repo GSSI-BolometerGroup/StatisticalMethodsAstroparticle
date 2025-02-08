@@ -29,6 +29,8 @@
 \usepackage{lipsum} % Inserts dummy text
 
 \usepackage{booktabs} % Better horizontal rules in tables
+\usepackage{todonotes}
+\usepackage{hyperref}
 
 \usepackage{graphicx} % Needed to insert images into the document
 \graphicspath{{graphics/}} % Sets the default location of pictures
@@ -71,7 +73,7 @@
 \newcommand{\ie}{\textit{i.\hairsp{}e.}\xspace} % Command to print i.e.
 \newcommand{\eg}{\textit{e.\hairsp{}g.}\xspace} % Command to print e.g.
 \newcommand{\na}{\quad--} % Used in tables for N/A cells
-
+\DeclareMathOperator\erf{erf}
 \newcommand{\doccmddef}[2][]{\hlred{\texttt{#2}}\label{cmd:#2}\ifthenelse{\isempty{#1}} % Command to define a command in red and add it to the index
 { % If no package is specified, add the command to the index
 \index{#2 command@\protect\hangleft{}\texttt{#2}}% Command name
@@ -158,6 +160,12 @@ Copyright \copyright\ \the\year\ \thanklessauthor
 \input{measurement/measurement}
 
 \input{point/point}
+
+\input{interval/interval}
+
+\input{hyptestandgoodnessoffit/hyptestandgoodnessoffit}
+
+\input{systematics/systematics}
 
 \input{exercise/exercise}
 

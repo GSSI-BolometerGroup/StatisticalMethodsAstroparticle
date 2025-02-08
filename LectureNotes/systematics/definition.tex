@@ -1,0 +1,25 @@
+\section{Goals and Definitions}
+Goal: To understand the following questions: 
+\begin{itemize}[$-$]
+  \item What are systematic uncertainties?
+  \item How do we correctly evaluate them?
+  \item How do we know if all systematics have been accounted for?
+  \item How do we treat correlations between systematic uncertainties?
+  \item How do we combine them?
+\end{itemize}
+
+In practice, no systematic and coherent treatment is available or possible. We can only refer to knowledge, experience, common and sense and intuition. \marginnote{This is more a draft of a cookbook than a mathematical explanation. I will explain 
+the main cooking techniques and a few recipes, but you have to explore on your own.}
+
+\subsection{Definition of systematic uncertainties}
+Possible definitions:
+\begin{itemize}
+  \item Systematic uncertainties are all uncertainties that are not directly due to the statistics of the data. 
+    \begin{itemize}[$\to$]
+      \item With this definition, the trigger efficiency or detector acceptance obtained from MC simulations would be systematic errors, even though they have a statistical behaviour.
+    \end{itemize}
+  \item Systematic uncertainties are measurement errors which are not due to statistical fluctuations of real or simulated data samples.
+    \begin{itemize}[$\to$]
+      \item In this case, the trigger efficiency or detector acceptance would be treated as a statistical uncertainty. 
+    \end{itemize}
+\end{itemize}

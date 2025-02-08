@@ -1,0 +1,282 @@
+\section{Hypothesis testing} \label{hypothesis_testing}
+Goals: \begin{itemize}[$\to$]
+    \item Use data to verify or disprove theory or hypothesis
+    \item Choose between alternative hypotheses 
+\end{itemize}
+
+Simple hypothesis: Hypothesis which is completely specified, e.g., theoretical model and parameter values 
+
+Composite hypothesis: Ensemble of more than one simple hypotheses, e.g., model with free parameters (equivalent to infinite list of hypotheses for all possible values of the parameter).\\
+
+
+Goals: 
+\begin{itemize}[$\to$]
+    \item Take 
+    \begin{itemize}[$\to$]
+        \item $H_0$ as the null hypothesis (background)
+        \item $H_1$ as the alternative hypothesis (signal + background)
+        \item $H_0$ and $H_1$ are a complete set $\implies \: P(H_0)+P(H_1) = 1$ (Bayesian) 
+    \end{itemize}
+    \item Test of hypothesis: Use data to verify/disprove $H_0$ or $H_1$
+    \item Take $H_0$ as a given hypothesis
+      \begin{itemize}
+          \item $\overline{H_0}$ as all other (unspecified) possible hypotheses
+      \end{itemize}
+      Goodness of fit $=$ use data to verify/disprove $H_0$ vs $\overline{H_0}$
+\end{itemize}
+
+\subsection{Test statistic}
+Let $\vec{x}$ be some measured data distributed as: 
+\begin{itemize}[$\to$]
+  \item $f_0(\vec{x}|H_0)$ if $H_0$ is true 
+  \item $f_1(\vec{x}|H_1)$ if $H_1$ is true
+\end{itemize}
+
+Let $H_0$ and $H_1$ be a complete set of alternative hypotheses.
+
+We want to develop a method to determine whether the observed data agree better with $H_0$ or $H_1$.
+
+Decide some cut on $\dfrac{A_2}{A_1}$. \todo{add plot}
+
+Measure the "physics data" (whatever they are) and use the previous method to distinguish $\alpha$ from $\beta$. 
+
+\subsection{Selection, misidentification and significance}
+\begin{itemize}
+  \item Selection efficiency $(\epsilon_s=1-\beta)$: Fraction of signal events that are expected to be correctly identified
+  \item Misidentification probability $(\epsilon_b = \alpha = \text{ significance})$: Fraction of background events that are expected to be erroneously identified as signal 
+  \item Critical region $(w)$: Region where we expect the signal
+  \item Acceptance region $(W-w)$: Region where we expect the background, region where we accept $H_0$ as true
+\end{itemize}
+     
+In general, the misidentification probability is also called "significance level". When we design a hypothesis test, we used to specify the desired level of significance $\alpha$, i.e., to which extent we are willing to accept the misidentification of data induced by $H_0$ with data induced by $H_1$:
+\begin{align}
+  P(t(\vec{x}) \in w | H_0) = \alpha
+\end{align}
+
+Given a predefined value of $\alpha$, we want to find the region $w$ which maximizes $(1-\beta)$.
+
+We can rewrite: 
+\begin{align}
+  1 - \beta &= \int \limits_{w} \dfrac{f_1(\vec{x}|H_1)}{f_0(\vec{x}|H_0)} f_0(\vec{x}|H_0) d\vec{x} \\
+            &= E_w \Big[\dfrac{f_1(\vec{x}| H_1)}{f_0(\vec{x}|H_0)}\Big]
+\end{align}
+
+\todo{double vector arrow?} 
+
+The best critical region $w$ is the one that satisfies: 
+\begin{align}
+\lambda(\vec{x}) = \dfrac{f_1(\vec{x}|H_1)}{f_0(\vec{x}|H_0)} \geq k_\alpha \quad \text{with $k_\alpha$ chosen so that the} \nonumber \\ \text{desired significance is achieved}
+\end{align}
+
+This is the Neyman-Pearson lemma. 
+
+\newthought{Notice that}
+\begin{itemize}[$\to$]
+  \item The NP lemma is valid only if the PDFs are known (including the values of their parameters).
+  \item The NP lemma provides the most powerful test. If we do not know the parameter values, the power of any test will be at most be that of the NP.
+
+\end{itemize}
+
+\subsection{Practical instructions (assuming parameter values are known)}
+\begin{enumerate}
+  \item Evaluate $f_0(\vec{x}|H_0)$ and $f_1(\vec{x}|H_1)$
+  \item Evaluate $\lambda(\vec{x})$ and find region $w$
+  \item Do your measurement obtaining data $\vec{\vec{x}}$ 
+  \item \begin{itemize}
+      \item If $\lambda(\vec{\vec{x}}) > k_\alpha$ $\implies$ $H_1$ is the considered true
+      \item If $\lambda(\vec{\vec{x}}) \leq k_\alpha$ $\implies$ $H_0$ is considered true
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Discoveries and upper limits}
+Suppose we are searching for a new physics process. We make a measurement and we need to quote a result. How do we decide whether the data tell us that there is new physics?
+
+\begin{itemize}[$\to$]
+  \item Frequentist approach: Measure the "significance", i.e., the probability that a background statistical fluctuation produces a fake signal at least as intense as the measured one
+  \item Bayesian approach: Quantify the posterior degree of belief on the hypotheses $H_0$ and $H_1$
+\end{itemize}
+
+\subsection{P-values}
+To claim a discovery, we need to determine that the data are sufficiently inconsistent with the background-only hypothesis $H_0$. 
+
+$\implies$ We can use a test statistic $t$ to measure such inconsistency!
+
+P-value: Probability $p$ that the test statistic $t$ assumes a value greater than or equal to the measured value $\hat{t}$ due to an overfluctuation of the background.
+
+\begin{itemize}[$\to$]
+  \item The p-value has a uniform distribution in $[0,1]$ if $H_0$ is true
+  \item The p-value tends to have small values if $H_1$ is true
+\end{itemize}
+
+\newthought{Example}: Event counting experiment
+
+Take the number of observed events $n$ as a test statistic. 
+
+P-value: probability to measure $\geq n$ events under the $H_0$ hypothesis
+
+\begin{itemize}[$\to$]
+  \item If $b$ is large, we can approximate the $\mathcal{L}$ with a Gaussian with $\mu=b$ and $\sigma=\sqrt{b}$
+
+    An excess $n-b=s$ must be compared with $\sqrt{b}$. The significance will be: 
+    \begin{align}
+      z= \dfrac{n-b}{\sqrt{b}} = \dfrac{s}{\sqrt{b}}
+    \end{align}
+  \item If $b$ is large and has some large uncertainty $\sigma_b$, the significance will be: 
+    \begin{align}
+      z = \dfrac{n-b}{\sqrt{b+\sigma_b^2}}
+    \end{align}
+  \item If $b$ is small, one can prove that the significance is: 
+    \begin{align}
+      z = \sqrt{2[(s+b)\ln\big(1 + \dfrac{s}{b}\big) - s]}
+    \end{align}
+\end{itemize}
+
+\subsection{Significance with likelihood ratio}
+Take again two nested hypotheses $H_0$ and $H_1$, with $H_0=H_1(s=0)$, where $s$ is the signal strength. 
+
+We can define the test statistic as: 
+\begin{align}
+  \lambda(s, \vec{\theta}) = \dfrac{\mathcal{L}_{s+b} (\vec{\vec{x}}|s,\vec{\theta})}{\mathcal{L}_{b}(\vec{\vec{x}}|\vec{\theta})}
+\end{align}
+
+A minimum of $-2\ln\lambda$ at $s=\hat{s}$ indicates the possible presence of a signal with strength $\hat{s}$.
+
+According to Wilks theorem, $2\ln\lambda$ follows a $\chi^2$ dsitribution with 1 DOF. 
+
+An approximate estimate of the significance is: 
+\begin{align}
+  z = \sqrt{2 \ln \lambda(\hat{s})}
+\end{align}
+
+\begin{itemize}[$\to$]
+  \item This is a local significance that can be used if we have a "perfect" prior knowledge of the other parameters $\vec{\theta}$.
+  \item If we estimate $\vec{\theta}$ from the data, we need to consider the "lock elsewhere effect".
+\end{itemize}
+
+\subsection{Bayes factor/ratio}
+If $H_0$ and $H_1$ are not a complete set of hypotheses, we cannot compute $P(\vec{x})$, and therefore $P(H_i|\vec{x})$.
+
+However, we can compute the ratio: 
+\begin{align}
+  \underset{\text{Posterior odds}}{\underbrace{\dfrac{P(H_1|\vec{x})}{P(H_0|\vec{x})}}} = \underset{\text{Bayes factor}}{\underbrace{\dfrac{P(\vec{x}|H_1)}{P(\vec{x}|H_0)}}} \underset{\text{Prior odds}}{\underbrace{\dfrac{\pi(H_1)}{\pi(H_0)}}}
+\end{align}
+
+If $\pi(H_0)=\pi(H_1)$, the posterior odds are identical to the Bayes factor.
+
+One can then set some thresholds on the Bayes factor (or on the posterior odds) to claim "evidence" and "discovery".
+
+\newthought{Example}: Evidence (Bayes factor)
+
+\subsection{Numerical and practical considerations}
+When running a Bayesian analysis, we might face three different problems involving three different algorithms. 
+\begin{enumerate}
+  \item Finding the global mode of posterior $\to$ minimizer algorithm
+  \item Interval estimation $\to$ MCMC
+    \item Computing "significance" (doing model testing or Bayes factor) $\to$ $n$-dimensional integration of full posterior PDF
+  \end{enumerate}
+ 
+At the moment, there is \underline{no algorithm} that does all three of them at the same time. Moreover, MCMC and integrators are inefficient.
+
+\marginnote{If you have an idea for an algorithm that can do all three things with a high efficiency (no discarded points) and that can work for dim$>50$, please let me know, because I want to work with you!}
+
+Exclusion: \todo{add plots}
+
+\subsection{Distribution-free test}
+A goodness of fit test is distribution-free if the distribution of $t$ is known independently of $H_0$.
+\begin{itemize}[$\to$]
+  \item Also the p-value is independent of $H_0$
+  \item We can compute $p$ for any $H_0$, and compare it to tabulated data that were calculated once for all!
+  \item Eventually, $p$ might depend on the number of events, number of bins in a histogram, or number of constraints in a fit. 
+\end{itemize}
+
+\subsection{Distribution-free tests for histograms}
+Suppose we measure $n$ times a variable $\vec{x}$ with PDF $f(\vec{x})$. Then we have $n$ values of the test statistic $t$, with PDF $f(t)$. 
+
+Assume $n$ is a Poisson variable. 
+
+If we bin the $n$ values of $t$, we get a histogram where each bin follows a Poisson statistic. 
+
+$\to$ We have lost the dependence on $f(t)$.
+
+\subsection{Pearson's $\chi^2$ test for histograms}
+Let us assume the number of entries in each bin $n_i$ is large enough that we can approximate the corresponding Poisson to a Gaussian. 
+
+Then we can use a statistic:
+\begin{align}
+  \chi^2 = \sum \limits_{i=1}^m \dfrac{(n_i - \lambda_i)^2}{V[\lambda_i]} \quad \text{where } m&=\text{ number of bins} \nonumber \\
+  \lambda_i &= \text{ expectation value for bin } i \text{ depends on } f(\chi^2)) \nonumber \\
+  V[\lambda_i] &= \text{ variance for } \lambda_i
+\end{align}
+
+The PDF of $\chi^2$ is: 
+\begin{align}
+  f(\chi^2, \text{ndf}) = \dfrac{1}{2^{\frac{\text{ndf}}{2}} \Gamma \dfrac{\text{ndf}}{2}} (\chi^2)^{\frac{\text{ndf}}{2}-1} e^{-\frac{\chi^2}{2}}
+\end{align}
+
+Here, mean=ndf and $V[\chi^2]=2$ndf. 
+
+\subsection{Wald-Wolfowitz run-test}
+Notice: The Pearson's $\chi^2$ test does not take into account the sign of the deviations. 
+
+The following two cases would give exactly the same $\chi^2$.
+\todo{add deviation plots}
+
+Let us define as "run" each region measurements with residuals of the same sign. 
+
+$\to$ The number of runs $r$ is binomial. 
+
+Denoting with:
+\begin{itemize}[$\to$]
+  \item $n_+=$ number of measurements with positive residuals 
+  \item $n_-=$ number of measurements with negative residuals
+\end{itemize}
+
+Number of possible combinations: $\dfrac{n!}{n_+!n_-!}$
+
+Expected number of runs and variance:
+\begin{align}
+  E[r] &= 1 + \dfrac{2n_+n_-}{n} \\
+  V[r] &= \dfrac{2n_+n_-(2n_+n_- - n)}{n^2(n-1)}
+\end{align}
+
+With $n\geq20$, $r$ can be approximated by a Gaussian, so we have: 
+\begin{align}
+  p = \dfrac{r - E[r]}{\sqrt{V[r]}}
+\end{align}
+
+\subsection{$\chi^2$ test for unbinned data}
+Suppose we measure $x$ $n$ times and fit it with $f(x|\vec{\theta})$.
+
+We can still run a $\chi^2$ test by binning the data $x$ in $m$ bins: 
+\begin{align}
+  \underset{\text{Multinomial case}}{\underbrace{\chi^2 = 2 \underset{n_i \neq 0}{\sum \limits_{i=1}^m} \ln \dfrac{n_i}{\hat{\lambda_i}}}}
+\end{align}
+
+where, $n_i=$ number of events in bin, $\hat{\lambda_i}=$ expectation value for $n_i$ obtained from fit
+
+For Poisson distributed data: 
+\begin{align}
+  \chi^2 = 2 \underset{n_i \neq 0}{\sum \limits_{i=1}^m} n_i \ln \dfrac{n_i}{\hat{\lambda_i}} + \hat{\lambda_i} - n_i 
+\end{align}
+
+$\to$ In large sample limit, it follows a $\chi^2$ with $(m-d)$ dof. 
+
+\subsection{Test using max-$\mathcal{L}$ estimate}
+Suppose we use $\mathcal{L}_{max}$ as a test statistic, and compare the measured value $\hat{\mathcal{L}}_{max}$ to the set of $\mathcal{L}_{max}$ from toy-MC experiments, where we set the value of $\vec{\theta}$ to their expected true values. 
+
+We have that $\mathcal{L}_{max}$ distributions are not well separated under different hypotheses. 
+
+$\to$ Do \underline{not} use $\mathcal{L}_{max}$ as a test-statistic for \todo{not legible} 
+
+\subsection{Smirnov-Cramér–von Mises test}
+Use as test statistics:
+\begin{align}
+  W^2 = \int \limits_{-\infty}^{+\infty} [F_n(x)-F(x)]^2 f(x) 
+\end{align}
+
+$\to$ Instead of using the single point where the difference is largest, we use the integral of the required difference. 
+
+\subsection{Anderson-Darling test}
+\begin{align}
+  A^2 = n \int \limits_{-\infty}^{+\infty} \dfrac{(F_n(x) - F(x))^2}{F(x)(1 - F(x))} dF(x) \quad \to\text{Put more weights on the tails of the distribution}
+\end{align}
