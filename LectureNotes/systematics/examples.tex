@@ -1,0 +1,105 @@
+\section{Examples}
+\subsection{Space dependence of CUORE BI}
+\begin{itemize}
+  \item Experiment made of $\approx 1000$ detectors. 
+  \item Data taking divided in $\approx 30$ datasets of $\approx 1$ month duration. 
+\end{itemize}
+
+Question: Is there any space dependence of the measured background rate? 
+\begin{itemize}[$\to$]
+  \item Is a single expectation value for the background rate enough to model the background rate of all $1000$ detectors?  
+\end{itemize}
+
+Method: \begin{enumerate}
+  \item Compute average background rate. 
+    \begin{align}
+      BR = \sum \limits_{\text{detecotor } i} \sum \limits_{\text{detector } d} \dfrac{n_{d_i}}{m t_{d_i} \Delta E}
+    \end{align}
+    Here, $n_{d_i}=$ number of counts in control region, $m=$ detector mean \todo{what? verify if man or mean}, $t_{d_i}=$ dataset duration, and $\Delta E=$ width of central region.
+    \todo{add plots}
+  \item Compare distribution of $n_{d_i}$ (made of $\approx 30000$ entries) with the sum of corresponding Poisson distributions produced by setting $\lambda_{d_i}=BR \cdot m \cdot t_{d_i} \cdot \Delta E$ with same BR for all! \todo{add plot}
+\end{enumerate}
+
+\subsection{Splitting data into independent subsets}
+\begin{itemize}
+  \item In CUORE, we repeat the fit for each dataset separately, obtaining: \todo{add plot}
+  \item We also split the detectors geometrically, with a non-sense splitting to evaluate the magnitude of any possible geometric systematic: \todo{add plot}
+\end{itemize}
+
+\subsection{Analysis software}
+Most analyses involve complex software developed for the specific situation. It is \underline{critical} to make sure there is no bug!
+Solutions:
+\begin{enumerate}
+  \item Perform a closure test using artificial data or toy MC to make sure the code does what it is supposed to do!
+  \item Repeat the test varying the statistics of the fake data. 
+  \item Study the fit bias as a function of the statistics, as a problem might arrive only with very low or very high statistics. 
+  \item Be critical of your result. Does it make sense from a physics point of view?
+    \begin{itemize}[$\to$]
+      \item Don't be like your colleague who discovered dark matter on the same data that were used to exclude the DAMA signal at $3\sigma$! \todo{add plot}
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Tolerances}
+Suppose we do not know the standard deviation $\sigma_\theta$ of a parameter $\theta$, but only an allowed range $[\theta_{\min}, \theta_{\max}]$. 
+
+This would be the case of a limit/hit \todo{what} on a scintillator strip. 
+
+For a uniform distribution, the standard deviation is:
+\begin{align}
+  \sigma_\theta = \dfrac{\sigma_{\max} - \sigma_{\min}}{\sqrt{12}} \approx 0.29 (\sigma_{\max} - \sigma_{\min})
+\end{align}
+which is $\approx 40 \%$ smaller than the naive half-range!
+
+\subsection{Small systematics}
+If a systematic effect gives (even in the worst case scenario) an effect that is much smaller than the statistical uncertainty, do not waste time in calculating the corresponding systematic error!
+
+\subsection{Background estimation}
+Suppose we take the following data, consisting of a range of interest with signal$+$background and some sidebounds with background only:
+\todo{add plot}
+
+We have two options:
+\begin{enumerate}
+  \item Side band subtraction $\to$ does not rely on possibly incorrect MC, but does not predict the background shape in ROI.
+  \item Model background with MC $\to$ does not provide background normalization
+\end{enumerate}
+
+Solution: Combine the two methods if $1.$ is not enough, meaning if the background cannot be parameterized. 
+
+\begin{align}
+  {\underbrace{\dfrac{1}{\Gamma_{\frac{1}{2}}}}}= \Phi g_A^4 M^2 \dfrac{m_{\beta\beta}^2}{m_e^2}
+\end{align}
+$\to$ A single limit on $\Gamma_{\frac{1}{2}}$ is reflected in a "range of limits" on $m_{\beta\beta}$!
+
+Here, $\Phi=$ phase space $\to$ computed precisely, $g_A = $ axial coupling $\to$ fixed, $m_{\beta\beta}=$ parameter of interest, $m_e=$ electron mass, and $M=$ Nuclear Matrix Element. 
+
+\subsection{Discrepancy between data and simulation}
+Suppose that despite all efforts, we get stuck with a discrepancy between data and MC. How do we quantify the discrepancy?
+
+\begin{enumerate}
+  \item Compute fraction of data $f$ lying in badly described region $(10\%)$.
+  \item Compute relative difference $d$ between data and MC (e.g. $20\%$).
+    $\implies$ The systematic uncertainty will be $\pm f\cdot d = \pm 0.2\%$. \todo{add plots}
+\end{enumerate}
+
+$\to$ Notice that we are relying on the fact that the MC normalization in the "well-described" region is correct!
+
+If we plot the uncorrelated error as a function of the cut variation:
+\todo{plot}
+
+Possible outcomes of the cut variation:
+\todo{plot a) b) c)}
+
+\begin{enumerate}
+  \item \begin{itemize}[$\to$]
+    \item Not possible to quote an uncertainty
+    \item We have a problem that we need to understand!
+  \end{itemize}
+\item \begin{itemize}[$\to$]
+    \item Does the trend really stabilize or is it due to a fluctuation?
+    \item If yes, quote the maximum variation, otherwise go back to $1.$
+\end{itemize}
+\item \begin{itemize}[$\to$]
+  \item Quote maximum variation.
+  \item If we mis-estimate the systematic, it is still smaller than the statistical uncertainty. 
+\end{itemize}
+\end{enumerate}
