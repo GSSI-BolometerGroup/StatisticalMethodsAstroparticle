@@ -5,7 +5,7 @@
 
 \cleardoublepage
 \chapter{Introduction} % The asterisk leaves out this chapter from the table of contents
-\label{ch:intro}
+\label{chapter:introduction}
 
 \section{Language conventions}\index{language conventions}
 
@@ -13,7 +13,7 @@
 
 \begin{table} % Add the following just after the closing bracket on this line to specify a position for the table on the page: [h], [t], [b] or [p] - these mean: here, top, bottom and on a separate page, respectively
 	\centering % Centers the table on the page, comment out to left-justify
-	\begin{tabular}{c c} % The final bracket specifies the number of columns in the table along with left and right borders which are specified using vertical bars (|); each column can be left, right or center-justified using l, r or c. To specify a precise width, use p{width}, e.g. p{5cm}
+	\begin{tabular}{l l} % The final bracket specifies the number of columns in the table along with left and right borders which are specified using vertical bars (|); each column can be left, right or center-justified using l, r or c. To specify a precise width, use p{width}, e.g. p{5cm}
 		\toprule % Top horizontal line
 		Physicist says & Statistician says\\ % Column names row
 		\midrule % In-table horizontal line
@@ -21,13 +21,13 @@
 		estimate & guess\\ % Content row 2
 		\bottomrule % Bottom horizontal line
 	\end{tabular}
-	\caption{Language example 1} % Table caption, can be commented out if no caption is required
-	\label{tab:LangEx1} % A label for referencing this table elsewhere, references are used in text as \ref{label}
+	\caption{Language Conventions Example 1} % Table caption, can be commented out if no caption is required
+	\label{table:Language_Conventions_Example_1} % A label for referencing this table elsewhere, references are used in text as \ref{label}
 \end{table}
 
 \begin{table}
 	\centering
-	\begin{tabular}{c c}
+	\begin{tabular}{l l}
 		\toprule
 		Demographic language & Physics language\\
 		\midrule
@@ -37,8 +37,8 @@
 		Population & Observable space\\
 		\bottomrule
 	\end{tabular}
-	\caption{Language example 2}
-	\label{tab:LangEx2}
+	\caption{Language Conventions Example 2}
+	\label{table:Language_Conventions_Example_2}
 \end{table}
 
 \begin{itemize}[$\to$]
@@ -69,14 +69,14 @@ Avoid \mono{misleading terms}\index{language conventions!misleading terms}:
 		\toprule
 		& Bayesian & Frequentist\\
 		\midrule
-		Statement depends on observer & $\times$ & \\
-		Applier to repeatable cases & $\times$ & $\times$\\
-		Applier to future unknown facts & $\times$ & \\
-		Applier to past unknown facts & $\times$ & \\
-		Applier to possible outcome of an experiment & $\times$ & \\
-		Applier to the true value of a parameter & $\times$ & \\
-		\tabincell{c}{Allows goodness-of-fit \\ (single hypothesis testing)} & & $\times$\\
-		Allows decision theory & $\times$ & \\
+		Statement depends on observer & \true & \false \\
+		Applier to repeatable cases & \true & \true\\
+		Applier to future unknown facts & \true & \false \\
+		Applier to past unknown facts & \true & \false \\
+		Applier to possible outcome of an experiment & \true & \false \\
+		Applier to the true value of a parameter & \true & \false \\
+		\tabincell{c}{Allows goodness-of-fit \\ (single hypothesis testing)} & \false & \true\\
+		Allows decision theory & \true & \false \\
 		\bottomrule
 	\end{tabular}
 	\caption{Two philosophies}

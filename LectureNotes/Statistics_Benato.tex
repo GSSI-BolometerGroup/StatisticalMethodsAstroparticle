@@ -22,6 +22,8 @@
 
 \documentclass{tufte-book} % Use the tufte-book class which in turn uses the tufte-common class
 
+\input{layout-fixes}
+
 \hypersetup{colorlinks} % Comment this line if you don't wish to have colored links
 
 \usepackage{microtype} % Improves character and word spacing
@@ -87,6 +89,23 @@
 \newcommand{\mono}[1]{\texttt{#1}}
 \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}} 
 
+% =========================================================
+% Boolean semantic macros
+% Use \true / \false in text and tables
+% Use \True / \False in algorithms
+% Do NOT use \checkmark or \times directly
+% =========================================================
+% --- Boolean visual layer ---
+\newcommand{\BoolTrueSymbol}{\ensuremath{\checkmark}}
+\newcommand{\BoolFalseSymbol}{\ensuremath{\times}}
+% --- Semantic boolean layer ---
+\newcommand{\true}{\BoolTrueSymbol}
+\newcommand{\false}{\BoolFalseSymbol}
+\newcommand{\yes}{\true}
+\newcommand{\no}{\false}
+\newcommand{\True}{\textsc{true}}
+\newcommand{\False}{\textsc{false}}
+
 \usepackage{makeidx} % Used to generate the index
 \makeindex % Generate the index which is printed at the end of the document
 
@@ -129,6 +148,8 @@ Copyright \copyright\ \the\year\ \thanklessauthor
 \par\smallcaps{\url{http://www.bookwebsite.com}}
 
 \par License information.\index{license}
+
+\openepigraph{Knowledge is power}{Francis Bacon}
 
 \par\textit{First printing, \monthyear}
 \end{fullwidth}

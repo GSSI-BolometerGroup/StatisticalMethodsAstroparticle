@@ -1,0 +1,132 @@
+% =========================================================
+% layout-fixes.tex
+% Global layout safety fixes for tufte-book
+%
+% Purpose:
+%   Eliminate hidden length assumptions that break when
+%   chapter/figure/table numbers exceed one digit (e.g. 10.10)
+%
+% Philosophy:
+%   - Do NOT modify tufte-common.def
+%   - Override safely at user level
+%   - Prefer explicit widths over defaults
+%
+% =========================================================
+
+
+% =========================================================
+% 1. TABLE OF CONTENTS (TOC)
+% ---------------------------------------------------------
+% Problem:
+%   Default label boxes assume small numbers (e.g. 9.9).
+%   Breaks for 10.10, 12.3, A.10, etc.
+%
+% Strategy:
+%   Widen contentslabel boxes for section/subsection.
+% =========================================================
+
+\usepackage{titletoc}
+
+% ----- Section level (e.g. 10.10) -----
+\titlecontents{section}
+  [0em]
+  {\vspace{0\baselineskip}\begin{fullwidth}\Large\rmfamily\itshape}
+  {\hspace*{2em}\contentslabel{3em}} % widened from default
+  {\hspace*{2em}}
+  {\rmfamily\upshape\qquad\thecontentspage}
+  [\end{fullwidth}]
+
+% ----- Subsection level (e.g. 10.10.3) -----
+\titlecontents{subsection}
+  [0em]
+  {\vspace{0\baselineskip}\begin{fullwidth}\large\rmfamily\itshape}
+  {\hspace*{4em}\contentslabel{4.5em}} % widened from default
+  {\hspace*{4em}}
+  {\rmfamily\upshape\qquad\thecontentspage}
+  [\end{fullwidth}]
+
+% (Subsubsection usually omitted in tufte-book TOC;
+%  add here only if you explicitly enable it.)
+
+
+% =========================================================
+% 2. LIST OF FIGURES / LIST OF TABLES (LoF / LoT)
+% ---------------------------------------------------------
+% Problem:
+%   Number column too narrow for 10.10 → overlap with caption.
+%
+% Strategy:
+%   Explicitly widen number column using tocloft.
+% =========================================================
+
+\usepackage{tocloft}
+
+% Safe for chapter-based numbering up to ~A.99
+\setlength{\cftfignumwidth}{3.5em}
+\setlength{\cfttabnumwidth}{3.5em}
+
+% Optional: extra breathing room between number and title
+\setlength{\cftfigindent}{0pt}
+\setlength{\cfttabindent}{0pt}
+
+
+% =========================================================
+% 3. INDEX (theindex)
+% ---------------------------------------------------------
+% Problem:
+%   Long command names, page ranges, or nested entries
+%   can look cramped with default hanging indents.
+%
+% Strategy:
+%   Slightly increase hanging indent while preserving
+%   Tufte visual style.
+% =========================================================
+
+\makeatletter
+\renewcommand\@idxitem{\par\hangindent 2.5em}
+\renewcommand\subitem{\par\hangindent 3.5em\hspace*{1em}}
+\renewcommand\subsubitem{\par\hangindent 4.5em\hspace*{2em}}
+\makeatother
+
+
+% =========================================================
+% 4. APPENDIX SAFETY
+% ---------------------------------------------------------
+% Problem:
+%   Appendix numbering (A.10, B.12) stresses the same
+%   assumptions as main chapters.
+%
+% Strategy:
+%   Already covered by TOC + LoF/LoT widening above.
+%   This section exists as documentation and future hook.
+% =========================================================
+
+% (No additional code required at present.)
+
+
+% =========================================================
+% 5. ALGORITHMS / PSEUDOCODE (FUTURE-PROOFING)
+% ---------------------------------------------------------
+% Status:
+%   Algorithm package not yet chosen.
+%
+% Strategy:
+%   Reserve a hook so algorithm numbering fixes can be
+%   added later without touching the main document.
+%
+% Usage later:
+%   - algorithm2e
+%   - algorithmicx + algpseudocode
+%   - listings
+%
+% Add fixes here once package is selected.
+% =========================================================
+
+% \AtBeginDocument{%
+%   % Algorithm numbering width fixes go here
+% }
+
+
+% =========================================================
+% End of layout-fixes.tex
+% =========================================================
