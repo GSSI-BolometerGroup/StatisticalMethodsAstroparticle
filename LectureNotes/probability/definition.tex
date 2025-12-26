@@ -2,98 +2,94 @@
 %------------------------------------------------
 
 \section{Definition of probability}\index{probability}
-\label{sec:def_of_prob}
+\label{sec:definition-of-probability}
 
 \subsection{Mathematical probability}\index{mathematical probability}
-Let $\Omega$ be the net of all elementary events $x_i$, which are mutually exclusive. We define the probability of the occurance of events $x$ to obey the Kolmogorov axioms:
+\label{subsec:mathematical-probability}
 
-% \begin{align}
-%    \to P(x_i) \geq 0 \quad \forall i \\
-%  \to P(x_i \cup x_j) = P(x_i) + P(x_j) \\
-%   \to   \sum\limits_i P(x_i) = 1 
-% \end{align}
-\begin{itemize}
-    \item $P(x_i) \geq 0 \quad \forall i$ 
-    \item $P(x_i \cup x_j) = P(x_i) + P(x_j)$
-    \item $\sum\limits_i P(x_i) = 1 $
+Let $\Omega$ be the set of all elementary events ${x}_{i}$, which are mutually exclusive.
+We define the probability of the occurrence of events ${x}_{i}$ to obey the Kolmogorov axioms:
+
+\begin{align}
+    & P({x}_{i}) \geq 0, \quad \forall i, \\
+    & P({x}_{i} \vee {x}_{j}) = P({x}_{i}) + P({x}_{j}), \quad i \neq j, \\
+    & \sum_{i} P({x}_{i}) = 1.
+\end{align}
+
+\begin{itemize}[$\to$]
+    \item abstract definition
+    \item holds for any quantity that satisfies the axioms
 \end{itemize}
-
-This is an abstract definition and holds for any quantity that satisfies the axioms.
-% \lipsum[6-7]
 
 \subsection{Frequentist probability}\index{frequentist probability}
+\label{subsec:frequentist-probability}
 
-Consider an experiment in which a series of $N$ events is observed. Suppose $K$ events are of type $X$. The frequentist probability for any single event to be of type $X$ in the empirical limit of the ratio: 
-
-\begin{align}
-    P(X) = \lim_{N\to\infty} \dfrac{K}{N}
-\end{align}
-
-In other words: 
-\begin{align}
-   \to P(X) = \lim_{N\to\infty} \dfrac{\text{Number of favourable cases}}{\text{Number of possible cases}}
-\end{align}
-
-\begin{itemize}
-    \item In principle, $P(X)$ can only be known for $N=\infty$. But often it can be computed analytically or numerically to grate precision. 
-    \item This can only be applied to repeatable experiments. 
-    
-    \marginnote{So, we cannot predict if Italy will win the next World Cup.}
-    
-    \item Repeatability, in principle, is impossible under the same exact conditions. However, it is the job of the physicist to ensure that all relevant conditions are repeatable, or to make corrections if required. 
-\end{itemize}
-
-
-\subsection{Bayesian probability}\index{Bayesian probability}
-\label{subsec:bayesian_prob}
-
-\paragraph{Degree of belief}\index{degree of belief}
-
-Amount $F(x)$ that we are willing to bet that $x$ will occur.
-
-Knowing that if we win, we will get a fixed amount $k$.
-\marginnote{This is called \mono{coherent bet}\index{coherent bet}.}
+Consider an experiment in which a series of $N$ events is observed. Suppose $K$ events are of type $X$.
+The frequentist probability for any \mono{single} event to be of type $X$ is the empirical limit of the ratio:
 
 \begin{equation}
-	\to P(x) = \frac{F(x)}{k}
+    P(X) = \lim_{N \to \infty} \frac{K}{N}
+\end{equation}
+
+In other words:
+
+\begin{equation}
+    P(X) = \lim_{N \to \infty} \frac{\#~\text{of favourable cases}}{\#~\text{of possible cases}}
+\end{equation}
+
+\begin{itemize}[$\to$]
+    \item In principle, $P(X)$ can only be known for $N=\infty$. But often it can be computed analytically or numerically to great precision.
+    \item This can only be applied to repeatable experiments.
+        \marginnote{So, we can not predict if Italy will win the next World Cup.}
+    \item Repeatability is, in principle, impossible under the same exact conditions. However, it is the job of the physicist to ensure that all relevant conditions are repeatable, or to make corrections if need be.
+\end{itemize}
+
+\subsection{Bayesian probability}\index{bayesian probability}
+\label{subsec:bayesian-probability}
+
+\newthought{Degree of belief}\index{degree of belief}: an amount $F(x)$ that we are willing to bet that $x$ will occur, knowing that if we win, we will get a fixed amount $k$.
+    \marginnote{This is called a \mono{coherent bet}\index{coherent bet}.}
+
+\begin{equation}
+    P(x) = \frac{F(x)}{k}
 \end{equation}
 
 \begin{equation}
-	\to \left\{
-	\begin{array}{rcl}
-		P(x) = 0 & & {\textrm{if we are sure } x \textrm{ will not happen,}}\\
-		P(x) = 1 & & {\textrm{if we are sure } x \textrm{ will happen,}}\\
-		0 < P(x) < 1 & & {\textrm{otherwise.}}
-	\end{array} \right.
+    \begin{cases}
+        P(x) = 0     & \text{if we are sure that } x \text{ will not happen,} \\
+        P(x) = 1     & \text{if we are sure that } x \text{ will happen,} \\
+        0 < P(x) < 1 & \text{otherwise.}
+    \end{cases}
 \end{equation}
 
 \begin{equation}\label{eq:norm_cond}
-	\sum_{i} P(n_{i}) = 1
+    \sum_{i} P({x}_{i}) = 1
 \end{equation}
 
-\begin{itemize}
-	\item It is a property of the system to be observed, as well as the observer.
-	\item It depends on the knowledge of the observer, and will change if the knowledge of the observer improves.
-	\item Can be applied to non-repeatable phenomenon.
-		\marginnote{Italy winning the next world cup; 
-		
-		me getting bold;
-		
-		or the aliens to have colonized the Earth in prehistoric times.}
-	\item Can be applied to the true value of a physics theory!
+\begin{itemize}[$\to$]
+    \item It is a property of the system to be observed, as well as of the observer.
+    \item It depends on the knowledge of the observer, and will change if the knowledge of the observer improves.
+    \item Can be applied to non-repeatable phenomena.
+        \marginnote{\eg Italy winning the next World Cup,
+
+            me getting bald,
+
+            or the aliens to have colonized the Earth in prehistoric times.}
+    \item Can be applied to the true value of a physics theory!
 \end{itemize}
 
 \subsection{Applicability of frequentist and Bayesian probability}\index{probability!applicability}
-\label{subsec:app_prob}
+\label{subsec:applicability-of-frequentist-and-bayesian-probability}
 
-\newthought{Based on these definitions}, we can immediately make a decision on which type of probability to use depending on the situation, i.e. depending on the question that we want to address. This is particularly important is we consider the fact that the physical parameter of a theory are fixed by Nature, but unknown to us.
+Based on these definitions, we can immediately make a decision on which type of probability to use depending on the situation, \ie depending on the question that we want to address.
+This is particularly important if we consider the fact that the physical parameters of a theory are fixed by Nature, but unknown to us.
 
-For example, we can ask the following types of question:
+For example, we can ask the following types of questions:
 
-\begin{itemize}[$\to$] 
-	\item Based on the result of a measurement, what is the true value of a parameter of the theory?
-	\item Based on the result of a measurement, what is the interval that contains the true (unknown) value of a given parameter with a given amount of probability?
-	\item Is my parameterization of the measured data good enough? Or does it indicate the presence of some “new physics”?
-	\item Supposing I want to compare two alternative models based on some experimental data, which of the models describes better the data?
-	\item Based on the results of previous experiments, what is the expected outcome of a future experiment measuring the same quantity, or a quantity connected to it?
+\begin{itemize}[-]
+    \item Based on the result of a measurement, what is the true value of a parameter of the theory?
+    \item Based on the result of a measurement, what is the interval that contains the true (unknown) value of a given parameter with a given amount of probability?
+    \item Is my parameterization of the measured data good enough? Or does it indicate the presence of some ``new physics''?
+    \item Supposing I want to compare two alternative models based on some experimental data, which of the models describes better the data?
+    \item Based on the results of previous experiments, what is the expected outcome of a future experiment measuring the same quantity, or a quantity connected to it?
 \end{itemize}
