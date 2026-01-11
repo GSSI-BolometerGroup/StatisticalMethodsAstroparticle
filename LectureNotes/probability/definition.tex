@@ -8,13 +8,14 @@
 \label{subsec:mathematical-probability}
 
 Let $\Omega$ be the set of all elementary events ${x}_{i}$, which are mutually exclusive.
-We define the probability of the occurrence of events ${x}_{i}$ to obey the Kolmogorov axioms:
+We define the probability of the occurrence of events ${x}_{i}$ to obey the Kolmogorov axioms, given by:
 
 \begin{align}
-    & P({x}_{i}) \geq 0, \quad \forall i, \\
-    & P({x}_{i} \vee {x}_{j}) = P({x}_{i}) + P({x}_{j}), \quad i \neq j, \\
-    & \sum_{i} P({x}_{i}) = 1.
+    & P({x}_{i}) \geq 0,                                 \quad \forall i, \label{eq:kolm-1} \\
+    & P({x}_{i} \vee {x}_{j}) = P({x}_{i}) + P({x}_{j}), \quad i \neq j,  \label{eq:kolm-2} \\
+    & \sum_{i} P({x}_{i}) = 1.                                            \label{eq:kolm-3}
 \end{align}
+
 
 \begin{itemize}[$\to$]
     \item abstract definition

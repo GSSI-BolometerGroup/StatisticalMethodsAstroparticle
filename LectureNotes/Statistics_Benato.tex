@@ -106,6 +106,21 @@
 \newcommand{\True}{\textsc{true}}
 \newcommand{\False}{\textsc{false}}
 
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+% Venn diagram definitions
+\def\firstcircle{ (0,0)   circle (1.5cm)}
+\def\secondcircle{(0:2cm) circle (1.5cm)}
+
+\colorlet{circle edge}{blue!50}
+\colorlet{circle area}{blue!20}
+
+\tikzset{
+    filled/.style={ fill=circle area, thick, draw=circle edge},
+    outline/.style={draw=circle edge, thick}
+}
+
 \usepackage{makeidx} % Used to generate the index
 \makeindex % Generate the index which is printed at the end of the document
 
