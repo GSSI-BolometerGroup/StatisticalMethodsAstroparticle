@@ -29,7 +29,6 @@ The probability of an event belonging to either $A$ or $B$ is given by:
 The subtraction term accounts for the overlap between the two sets.
 
 \begin{marginfigure}%[-1.5\baselineskip]
-    \centering
     \begin{tikzpicture}
         \begin{scope}
             \clip \firstcircle;
@@ -191,12 +190,106 @@ Therefore,
     P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}
 \end{equation}
 
+\begin{figure*}[h]
+    \begin{tikzpicture}
+
+        % Sample space Omega
+        \draw[thick] (-2,-1.5) rectangle (2,1.5);
+        \node at (1.6,1.2) {$\Omega$};
+
+        % Intersection A \wedge B
+        \begin{scope}
+            \clip (-0.5,0) ellipse (0.8 and 1.4);
+            \fill[purple!40] (0.5,0) ellipse (1.4 and 0.6);
+        \end{scope}
+
+        \node at (-0.3,0) {$A \wedge B$};
+
+        % Event A (vertical ellipse)
+        \draw[thick, blue] (-0.5,0) ellipse (0.8 and 1.4);
+        \node[blue] at (-0.5,1) {$A$};
+
+        % Event B (horizontal ellipse)
+        \draw[thick, red]  (0.5,0) ellipse (1.4 and 0.6);
+        \node[red] at (1.5,0) {$B$};
+
+        % Probability annotations
+        \node at (5,1)
+        {$P(A)=\dfrac{\qquad \qquad \qquad \qquad}{\qquad \qquad \qquad \qquad}$};
+        \draw[thick, blue] (5.65,  1.9) ellipse (0.4 and 0.7);
+        \draw[thick]       (5.65-1,0.2-0.75) rectangle (5.65+1,0.2+0.75);
+
+        \node at (10,1)
+        {$P(B)=\dfrac{\qquad \qquad \qquad \qquad}{\qquad \qquad \qquad \qquad}$};
+        \draw[thick, red]  (10.65,  1.5) ellipse (0.7 and 0.3);
+        \draw[thick]       (10.65-1,0.2-0.75) rectangle (10.65+1,0.2+0.75);
+
+        \node at (5,-1.6)
+        {$P(A \mid B)=\dfrac{\qquad \qquad \qquad}{\qquad \qquad \qquad}$};
+        \begin{scope}
+            \clip            (5.85+0.15-0.25,-1.1) ellipse (0.4 and 0.7);
+            \fill[purple!40] (5.85+0.15+0.25,-1.1) ellipse (0.7 and 0.3);
+        \end{scope}
+        \draw[thick, red]    (5.85,          -2.0) ellipse (0.7 and 0.3);
+
+        \node at (10,-1.6)
+        {$P(B \mid A)=\dfrac{\qquad \qquad \qquad}{\qquad \qquad \qquad}$};
+        \begin{scope}
+            \clip            (10.85+0.15-0.25,-1.1) ellipse (0.4 and 0.7);
+            \fill[purple!40] (10.85+0.15+0.25,-1.1) ellipse (0.7 and 0.3);
+        \end{scope}
+        \draw[thick, blue]   (10.85,         -2.35) ellipse (0.4 and 0.7);
+
+        \node at (5,-3.8)
+        {$P(A \mid B)\cdot P(B)
+            =\dfrac{\qquad \qquad \qquad}{\qquad \qquad \qquad}
+                \cdot \dfrac{\qquad \qquad \qquad \qquad}{\qquad \qquad \qquad \qquad}
+            =\dfrac{\qquad \qquad \qquad \qquad}{\qquad \qquad \qquad \qquad}
+            = P(A \wedge B)$};
+            \begin{scope}
+                \clip            (2.2+0.15-0.25,-3.3) ellipse (0.4 and 0.7);
+                \fill[purple!40] (2.2+0.15+0.25,-3.3) ellipse (0.7 and 0.3);
+            \end{scope}
+            \draw[thick, red]    (2.2,          -4.2) ellipse (0.7 and 0.3);
+            \draw[thick, red]    (5.0,          -3.3) ellipse (0.7 and 0.3);
+            \draw[thick]         (5.0-1,        -4.6-0.75) rectangle (5.0+1,-4.6+0.75);
+            \begin{scope}
+                \clip            (8.4+0.15-0.25,-3.3) ellipse (0.4 and 0.7);
+                \fill[purple!40] (8.4+0.15+0.25,-3.3) ellipse (0.7 and 0.3);
+            \end{scope}
+            \draw[thick]         (8.4-1,        -4.6-0.75) rectangle (8.4+1,-4.6+0.75);
+
+        \node at (5,-7.3)
+        {$P(B \mid A)\cdot P(A)
+            =\dfrac{\qquad \qquad \qquad}{\qquad \qquad \qquad}
+            \cdot \dfrac{\qquad \qquad \qquad \qquad}{\qquad \qquad \qquad \qquad}
+            =\dfrac{\qquad \qquad \qquad \qquad}{\qquad \qquad \qquad \qquad}
+            = P(A \wedge B)$};
+        \begin{scope}
+            \clip            (2.2+0.15-0.25,-6.8 ) ellipse (0.4 and 0.7);
+            \fill[purple!40] (2.2+0.15+0.25,-6.8 ) ellipse (0.7 and 0.3);
+        \end{scope}
+        \draw[thick, blue]   (2.2,          -8.05) ellipse (0.4 and 0.7);
+        \draw[thick, blue]   (5.0,          -6.4 ) ellipse (0.4 and 0.7);
+        \draw[thick]         (5.0-1,        -8.1-0.75) rectangle (5.0+1,-8.1+0.75);
+        \begin{scope}
+            \clip            (8.4+0.15-0.25,-6.8 ) ellipse (0.4 and 0.7);
+            \fill[purple!40] (8.4+0.15+0.25,-6.8 ) ellipse (0.7 and 0.3);
+        \end{scope}
+        \draw[thick]         (8.4-1,        -8.1-0.75) rectangle (8.4+1,-8.1+0.75);
+
+    \end{tikzpicture}
+    \caption{Geometric interpretation of Bayes' theorem.
+        Probabilities are represented as ratios of areas within the sample space $\Omega$.}
+    \label{fig:bayes-geometry}
+\end{figure*}
+
 More generally, let ${A}_{1}, {A}_{2}, \cdots, {A}_{N}$ be \mono{exclusive} and \mono{exhaustive} sets, and let $B$ be any event:
 
 \begin{equation}\label{eq:bayes--discrete-general}
     P({A}_{i} \mid B)
     = \frac{P(B \mid {A}_{i}) \cdot P({A}_{i})}
-           {\sum_{i=1}^{N} P(B \mid {A}_{i}) \cdot P({A}_{i})}
+    {\sum_{i=1}^{N} P(B \mid {A}_{i}) \cdot P({A}_{i})}
 \end{equation}
 
 \begin{itemize}
